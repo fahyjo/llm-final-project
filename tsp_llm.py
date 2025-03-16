@@ -88,7 +88,7 @@ def calculate_path_distance(coords: Dict[str, List[float]], path: List[int]) -> 
     total_distance = 0
     for i in range(len(path)):
         current_node = str(path[i])
-        next_node = str(path[0]) if i == len(path) - 1 else str(path[i + 1])
+        next_node = path[0] if i == len(path) - 1 else path[i + 1]
         
         x1, y1 = coords[str(int(current_node)+1)]
         x2, y2 = coords[str(int(next_node)+1)]
@@ -99,19 +99,23 @@ def calculate_path_distance(coords: Dict[str, List[float]], path: List[int]) -> 
     
     return total_distance
 
+
 def generate_random_solution(problem_size: int) -> List[int]:
     """
-    Generate a random solution for a TSP problem.
+    Generate a random solution for a TSP problem, ensuring that all solutions start with 0.
     
     Args:
         problem_size: Number of nodes in the TSP problem.
         
     Returns:
-        List of node IDs representing a random path through all nodes.
+        List of node IDs representing a random path through all nodes, starting with 0.
     """
-    solution = list(range(problem_size))
-    random.shuffle(solution)
-    return solution
+    if problem_size <= 1:
+        return [0] * problem_size  # Handles edge case where problem_size is 0 or 1
+    
+    nodes = list(range(1, problem_size))  # Exclude 0 from shuffling
+    random.shuffle(nodes)
+    return [0] + nodes
 
 def generate_sample_solutions(coords: Dict[str, List[float]], num_samples: int = 4) -> List[Dict[str, Any]]:
     """
@@ -207,8 +211,66 @@ def generate_llm_prompt(problem: Dict[str, Any], num_samples: int = 4) -> str:
     
     # Add the request
     prompt += "\nGive me a new trace that is different from all traces above, and has a length lower than any of the above. "
-    prompt += "The trace should traverse all points exactly once. "
-    prompt += f"The trace should start with and end with {samples[-1]['path'][0]}."
+    prompt += "The trace should traverse all nodes"
+    prompt += "The path must start at 0 will return to 0 at the end of the trace, which is included in the distance."
+    
+    return prompt
+
+def generate_llm_prompt_multi(problem: Dict[str, Any], num_samples: int = 4) -> str:
+    """
+    Generate a prompt for an LLM to solve a TSP problem.
+    
+    Args:
+        problem: Dictionary containing a TSP problem from the dataset.
+        num_samples: Number of sample solutions to include in the prompt.
+        
+    Returns:
+        Formatted prompt string for the LLM.
+    """
+    coords = {k: v for k, v in problem["coordinates"].items()}
+    problem_size = len(coords)
+    
+    # Create distance matrix
+    distance_matrix = create_distance_matrix(coords)
+    
+    # Generate sample solutions
+    samples = generate_sample_solutions(coords, num_samples)
+    
+    # Start building the prompt
+    SYSTEMPROMPT = f"You are given a list of points with coordinates below: {format_coordinates(coords)}.\n\n"
+    
+    # Add distance matrix
+    SYSTEMPROMPT += format_distance_matrix(distance_matrix, problem_size) + "\n"
+
+
+    SYSTEMPROMPT += "Here is a sample trace and its associated distance: \n\n"
+    examples = {}
+    # Add sample solutions
+    for i, sample in enumerate(samples):
+        path_str = format_solution(sample["path"])
+        distance = round(sample["distance"])
+
+        if i == 0:
+            SYSTEMPROMPT += f"{path_str} length: {distance}\n"
+        else:
+            examples[path_str] = distance
+
+    
+    # Add the request
+    USERPROMPT = "\nGive me a new trace that is different from the above trace, and has a length lower than the above trace. "
+    USERPROMPT += "The trace should traverse all nodes"
+    USERPROMPT += "The path must start at 0 will return to 0 at the end of the trace, which is included in the distance."
+
+    prompt  = [{"role": "system",
+                "content": SYSTEMPROMPT},
+                {"role": "user",
+                 "content": USERPROMPT}]
+    
+    prompt += [
+        item 
+        for path, distance in examples.items() 
+        for item in ({"role": "assisstant", "content": path}, {"role": "user", "content": f"Distance {distance} \n Please find a trace with a shorter distance:"})
+    ]
     
     return prompt
 
@@ -237,7 +299,7 @@ def create_llm_dataset(dataset: Dict, output_filename: str = "tsp_llm_prompts.js
         selected_problems = random.sample(problems, min(problems_per_size, len(problems)))
         
         for problem in selected_problems:
-            prompt = generate_llm_prompt(problem)
+            prompt = generate_llm_prompt_multi(problem)
             
             # Add to the dataset
             llm_dataset[size_key].append({
@@ -276,11 +338,11 @@ if __name__ == "__main__":
     
     # Load the TSP dataset
     try:
-        dataset = load_tsp_dataset("llm-final-project/tsp_dataset_100_problems.json")
+        dataset = load_tsp_dataset("tsp_dataset_100_problems.json")
         print("TSP dataset loaded successfully.")
         
         # Create LLM prompts dataset
-        create_llm_dataset(dataset, "tsp_llm_prompts_with_matrix.json", problems_per_size=5)
+        create_llm_dataset(dataset, "tsp_llm_prompts_with_matrix_multi.json", problems_per_size=25)
         
         # Print a sample prompt
         sample_size = 5  # Using a smaller size for clearer display
