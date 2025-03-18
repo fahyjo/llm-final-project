@@ -216,7 +216,7 @@ def generate_llm_prompt(problem: Dict[str, Any], num_samples: int = 4) -> str:
     
     return prompt
 
-def generate_llm_prompt_multi(problem: Dict[str, Any], num_samples: int = 4) -> str:
+def generate_llm_prompt_multi(problem: Dict[str, Any], num_samples: int = 3) -> str:
     """
     Generate a prompt for an LLM to solve a TSP problem.
     
@@ -237,40 +237,53 @@ def generate_llm_prompt_multi(problem: Dict[str, Any], num_samples: int = 4) -> 
     samples = generate_sample_solutions(coords, num_samples)
     
     # Start building the prompt
-    SYSTEMPROMPT = f"You are given a list of points with coordinates below: {format_coordinates(coords)}.\n\n"
+    SYSTEMPROMPT = f"""You are solving a Traveling Salesperson Problem (TSP). Your goal is to generate an optimized route with a lower total distance than any previously provided solution.\n\n
+                   ## Problem Setup:\n
+                   The problem consists of the following nodes with coordinates:\n{format_coordinates(coords)}.\n\n"""
     
     # Add distance matrix
-    SYSTEMPROMPT += format_distance_matrix(distance_matrix, problem_size) + "\n"
+    SYSTEMPROMPT += f"### Distance Matrix:\n {format_distance_matrix(distance_matrix, problem_size)} \n"
 
 
-    SYSTEMPROMPT += "Here is a sample trace and its associated distance: \n\n"
+    SYSTEMPROMPT += """## Output Format (Strict):\n
+                   You must respond with exactly one new valid route in this format:\n\n
+                   **Route:** <trace> 0, X, Y, Z, ..., 0<trace>\n
+                   ### Rules:\n
+                   - The route must visit all nodes exactly once before returning to 0.\n
+                   - The new route must have a total distance lower than the previously provided best distance.\n
+                   - Do not repeat a previously suggested route.\n
+                   - Only provide **one** improved route and no additional commentary.\n\n
+                   Generate an improved route below:"""
+    
     examples = {}
     # Add sample solutions
     for i, sample in enumerate(samples):
         path_str = format_solution(sample["path"])
         distance = round(sample["distance"])
 
-        if i == 0:
-            SYSTEMPROMPT += f"{path_str} length: {distance}\n"
-        else:
-            examples[path_str] = distance
+        examples[path_str] = distance
 
     
-    # Add the request
-    USERPROMPT = "\nGive me a new trace that is different from the above trace, and has a length lower than the above trace. "
-    USERPROMPT += "The trace should traverse all nodes"
-    USERPROMPT += "The path must start at 0 will return to 0 at the end of the trace, which is included in the distance."
+    SYSTEMPROMPT += ''.join(
+        f'\n\n <trace>{path},0<trace> \n length: \n {distance}' 
+        for path, distance in examples.items()
+    )
+
+
+    USERPROMPT = '''Give me a new trace that is different from all traces above, and has a length lower than any of the
+above. The trace should traverse all points exactly once. The trace should start with <trace> and end
+with </trace>. Let's find a final solution step by step. Only put your final solution inside <trace> brackets.'''
 
     prompt  = [{"role": "system",
                 "content": SYSTEMPROMPT},
-                {"role": "user",
-                 "content": USERPROMPT}]
+                {'role': 'user',
+                 'content': USERPROMPT}]
     
-    prompt += [
-        item 
-        for path, distance in examples.items() 
-        for item in ({"role": "assisstant", "content": path}, {"role": "user", "content": f"Distance {distance} \n Please find a trace with a shorter distance:"})
-    ]
+    # prompt += [
+    #     item 
+    #     for path, distance in examples.items() 
+    #     for item in ({"role": "assisstant", "content": f'<trace>{path}<trace \n'}, {"role": "user", "content": f"Distance {distance} \n Find exactly one new route with a lower distance:"})
+    # ]
     
     return prompt
 
@@ -342,7 +355,7 @@ if __name__ == "__main__":
         print("TSP dataset loaded successfully.")
         
         # Create LLM prompts dataset
-        create_llm_dataset(dataset, "tsp_llm_prompts_with_matrix_multi.json", problems_per_size=25)
+        create_llm_dataset(dataset, "tsp_llm_prompts_with_matrix_think.json", problems_per_size=25)
         
         # Print a sample prompt
         sample_size = 5  # Using a smaller size for clearer display
