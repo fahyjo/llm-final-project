@@ -159,7 +159,7 @@ def format_coordinates(coords: Dict[str, List[float]]) -> str:
     """
     formatted_coords = []
     for node_id, (x, y) in coords.items():
-        formatted_coords.append(f"({node_id}): ({int(x)}, {int(y)})")
+        formatted_coords.append(f"Node: {int(node_id)+1}: ({int(x)}, {int(y)})")
     
     return ", ".join(formatted_coords)
 
@@ -237,25 +237,17 @@ def generate_llm_prompt_multi(problem: Dict[str, Any], num_samples: int = 3) -> 
     samples = generate_sample_solutions(coords, num_samples)
     
     # Start building the prompt
-    SYSTEMPROMPT = f"""You are solving a Traveling Salesperson Problem (TSP). Your goal is to generate an optimized route with a lower total distance than any previously provided solution.\n\n
-                   ## Problem Setup:\n
-                   The problem consists of the following nodes with coordinates:\n{format_coordinates(coords)}.\n\n"""
+    SYSTEMPROMPT = f"""You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.
+
+## Problem Setup:
+Given 10 nodes with coordinates:{format_coordinates(coords)}.\n\n"""
     
     # Add distance matrix
-    SYSTEMPROMPT += f"### Distance Matrix:\n {format_distance_matrix(distance_matrix, problem_size)} \n"
-
-
-    SYSTEMPROMPT += """## Output Format (Strict):\n
-                   You must respond with exactly one new valid route in this format:\n\n
-                   **Route:** <trace> 0, X, Y, Z, ..., 0<trace>\n
-                   ### Rules:\n
-                   - The route must visit all nodes exactly once before returning to 0.\n
-                   - The new route must have a total distance lower than the previously provided best distance.\n
-                   - Do not repeat a previously suggested route.\n
-                   - Only provide **one** improved route and no additional commentary.\n\n
-                   Generate an improved route below:"""
-    
+    SYSTEMPROMPT += f"""
+## Distance Matrix:
+The matrix below shows the distance between each pair of nodes:\n {format_distance_matrix(distance_matrix, problem_size)} \n"""
     examples = {}
+
     # Add sample solutions
     for i, sample in enumerate(samples):
         path_str = format_solution(sample["path"])
@@ -263,16 +255,37 @@ def generate_llm_prompt_multi(problem: Dict[str, Any], num_samples: int = 3) -> 
 
         examples[path_str] = distance
 
+    SYSTEMPROMPT += """
+## Previous Solutions:
+These routes have already been tried:"""
     
     SYSTEMPROMPT += ''.join(
-        f'\n\n <trace>{path},0<trace> \n length: \n {distance}' 
+        f'\n\n Route: {path},0 with total length: {distance}' 
         for path, distance in examples.items()
     )
+    
 
 
-    USERPROMPT = '''Give me a new trace that is different from all traces above, and has a length lower than any of the
-above. The trace should traverse all points exactly once. The trace should start with <trace> and end
-with </trace>. Let's find a final solution step by step. Only put your final solution inside <trace> brackets.'''
+
+    USERPROMPT = '''## Your Task:
+1. Analyze the distance matrix carefully
+2. Apply systematic optimization techniques such as:
+   - 2-opt or 3-opt local search
+   - Nearest neighbor with look-ahead
+   - Edge exchange optimization
+   - Consider node clustering patterns
+3. Calculate the total distance of your proposed route precisely
+
+## Requirements:
+- Start and end at node 0
+- Visit each node exactly once before returning to node 0
+- Provide a route with a total distance lower than 1127
+- Your solution must be different from the previous routes
+
+## Output Format:
+Think through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:
+
+<trace>0,X,X,X,X,X,X,X,X,X,0</trace>'''
 
     prompt  = [{"role": "system",
                 "content": SYSTEMPROMPT},
