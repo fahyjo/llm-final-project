@@ -51,7 +51,7 @@ def calculate_tsp_distance(tsp: Dict[int, Tuple[int, int]], path: List[int]) -> 
     
     return total_distance
 
-def generate_tsp_distance_matrix(tsp: Dict[int, Tuple[int, int]]) -> List[List[int]]:
+def generate_tsp_distance_matrix(tsp: Dict[int, Tuple[int, int]]) -> List[List[float]]:
     """
     Calculate the distance matrix for a TSP problem.
 
