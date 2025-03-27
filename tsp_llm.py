@@ -253,14 +253,13 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str = "tsp_llm_pro
         output_filename: Path to save the LLM prompts dataset.
         problems_per_size: Number of problems to include for each size.
     """
-    prompt_dataset = {}
+    prompt_dataset = []
     
-    sizes = [5, 10, 15, 20]
+    sizes = [5, 10, 15]
     pbar = tqdm(total=len(sizes) * problems_per_size, desc="Generating LLM Prompts")
     
     for size in sizes:
         size_key = f"size_{size}"
-        prompt_dataset[size_key] = []
         
         # Get problems of this size
         problems = tsp_dataset[size_key]
@@ -272,11 +271,11 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str = "tsp_llm_pro
         selected_problems = sorted(selected_problems, key=lambda x: int(x['problem_id'].split("_")[2]))
         
         # Generate llm prompt
-        for problem in selected_problems:
+        for problem in (selected_problems):
             prompt = generate_llm_prompt_new(problem['tsp'])
             
             # Add to the dataset
-            prompt_dataset[size_key].append({
+            prompt_dataset.append({
                 "problem_id": problem["problem_id"],
                 "size": size,
                 "prompt": prompt,
@@ -290,14 +289,6 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str = "tsp_llm_pro
     
     pbar.close()
     
-    # Add metadata
-    prompt_dataset["metadata"] = {
-        "total_prompts": len(sizes) * problems_per_size,
-        "sizes": sizes,
-        "count_per_size": problems_per_size,
-        "data_generated": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "description": "TSP LLM prompts dataset"
-    }
     
     # Save the dataset
     with open(output_filename, 'w') as f:
@@ -340,14 +331,14 @@ if __name__ == "__main__":
     
     try:
         # Load the TSP dataset
-        dataset = load_tsp_dataset("tsp_dataset_100_problems.json")
+        dataset = load_tsp_dataset("tsp_dataset_9000_problems.json")
         print("TSP dataset loaded successfully.")
 
         # Process dataset for compatibility with rest of script
         dataset = process_dataset(dataset)
         
         # Create LLM prompts dataset
-        create_prompt_dataset(dataset, "tsp_llm_prompts.json", problems_per_size=25)
+        create_prompt_dataset(dataset, "tsp_llm_prompts_9000.json", problems_per_size=3000)
         
         # Print a sample prompt
         sample_size = 5  # Using a smaller size for clearer display

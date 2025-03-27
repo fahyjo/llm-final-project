@@ -225,7 +225,7 @@ def create_tsp_dataset(sizes: List[int], count_per_size: int) -> Dict:
     # Build list of problems
     problems = []
     for size in sizes:
-        for i in range(count_per_size):
+        for i in tqdm(range(count_per_size)):
             # Generate a TSP problem
             tsp = generate_tsp(size)
             
@@ -294,8 +294,8 @@ if __name__ == "__main__":
     np.random.seed(42)
     
     # Define problem sizes and count per size
-    sizes = [5, 10, 15, 20]
-    count_per_size = 25
+    sizes = [5, 10, 15]
+    count_per_size = 3000
     
     print(f"Creating a dataset with {count_per_size} problems for each size: {sizes}")
     print(f"Total problems: {len(sizes) * count_per_size}")
@@ -316,7 +316,7 @@ if __name__ == "__main__":
     }
     
     # Save the dataset
-    serialize_tsp_dataset(dataset, "tsp_dataset_100_problems.json")
+    serialize_tsp_dataset(dataset, "tsp_dataset_9000_problems.json")
     
     # Print summary statistics
     print("\nDataset Summary:")
