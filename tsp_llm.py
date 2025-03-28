@@ -331,7 +331,7 @@ if __name__ == "__main__":
     
     try:
         # Load the TSP dataset
-        dataset = load_tsp_dataset("tsp_dataset_9000_problems.json")
+        dataset = load_tsp_dataset("tsp_dataset_300_problems.json")
         print("TSP dataset loaded successfully.")
 
         # Process dataset for compatibility with rest of script

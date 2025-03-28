@@ -295,7 +295,7 @@ if __name__ == "__main__":
     
     # Define problem sizes and count per size
     sizes = [5, 10, 15]
-    count_per_size = 3000
+    count_per_size = 100
     
     print(f"Creating a dataset with {count_per_size} problems for each size: {sizes}")
     print(f"Total problems: {len(sizes) * count_per_size}")
@@ -316,7 +316,7 @@ if __name__ == "__main__":
     }
     
     # Save the dataset
-    serialize_tsp_dataset(dataset, "tsp_dataset_9000_problems.json")
+    serialize_tsp_dataset(dataset, "tsp_dataset_300_problems.json")
     
     # Print summary statistics
     print("\nDataset Summary:")
