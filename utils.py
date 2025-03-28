@@ -17,7 +17,7 @@ def calculate_path_distance(coords: Dict[str, List[float]], path: List[int]) -> 
     if not (isinstance(path, list)):
         return np.inf
     
-    if not set(path) == set(range(len(list))):
+    if not set(path) == set(range(len(path))):
         return np.inf
     
     total_distance = 0
