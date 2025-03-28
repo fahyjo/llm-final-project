@@ -20,6 +20,11 @@ def load_tsp_dataset(filename: str = "tsp_dataset_100_problems.json") -> Dict:
         dataset = json.load(f)
     return dataset
 
+def load_tsp_prompt_dataset(filename: str = "tsp_llm_prompts.json") -> Dict:
+    with open(filename, 'r') as f:
+        dataset = json.load(f)
+    return dataset
+
 def format_distance_matrix(matrix: List[List[float]]) -> str:
     """
     Format the distance matrix with headers and column alignment.
@@ -244,6 +249,64 @@ Think through your approach step by step, showing your calculations. Then provid
     
     return prompt
 
+def generate_llm_prompt_ds(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -> str:
+    """
+    Generate a prompt for an LLM to solve a TSP problem.
+    
+    Args:
+        tsp: Dictionary of node indices to coordinates
+        num_samples: Number of sample solutions to include in the prompt.
+        
+    Returns:
+        Formatted prompt string for the LLM.
+    """
+    # Create distance matrix
+    distance_matrix = generate_tsp_distance_matrix(tsp)
+    
+    # Generate sample solutions
+    samples = generate_sample_solutions(tsp, num_samples)
+    
+    # Start building the prompt
+    USERPROMPT = f"""You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.
+
+## Problem Setup
+Given {len(tsp)} nodes with coordinates:\n{format_coordinates(tsp)}\n\n"""
+    
+    # Add distance matrix
+    USERPROMPT += f"""
+## Distance Matrix
+The matrix below shows the distance between each pair of nodes:\n {format_distance_matrix(distance_matrix)} \n\n"""
+    examples = {}
+
+    # Add sample solutions
+    for i, sample in enumerate(samples):
+        path_str = format_solution(sample["path"])
+        distance = round(sample["distance"])
+
+        examples[path_str] = distance
+
+    USERPROMPT += """
+## Previous Solutions
+These routes have already been tried:"""
+    
+    USERPROMPT += ''.join(
+        f'\nRoute: {path} with total length: {distance}' 
+        for path, distance in examples.items()
+    )
+
+    USERPROMPT += f"""\n\n
+## Requirements
+- Start and end at node 0
+- Visit each node exactly once before returning to node 0
+- Provide a route with a total distance lower than {round(samples[-1]['distance'])}
+- Your solution must be different from the previous routes
+
+## Output Format
+Think through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:
+<answer>0,X,X,X,X,X,X,X,X,X,0</answer>"""
+    
+    return USERPROMPT
+
 def create_prompt_dataset(tsp_dataset: Dict, output_filename: str = "tsp_llm_prompts.json", problems_per_size: int = 5) -> None:
     """
     Create a dataset of LLM prompts from the TSP dataset.
@@ -272,7 +335,7 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str = "tsp_llm_pro
         
         # Generate llm prompt
         for problem in (selected_problems):
-            prompt = generate_llm_prompt_new(problem['tsp'])
+            prompt = generate_llm_prompt_ds(problem['tsp'])
             
             # Add to the dataset
             prompt_dataset.append({
@@ -331,14 +394,14 @@ if __name__ == "__main__":
     
     try:
         # Load the TSP dataset
-        dataset = load_tsp_dataset("tsp_dataset_300_problems.json")
+        dataset = load_tsp_dataset("tsp_dataset_100_problems.json")
         print("TSP dataset loaded successfully.")
 
         # Process dataset for compatibility with rest of script
         dataset = process_dataset(dataset)
         
         # Create LLM prompts dataset
-        create_prompt_dataset(dataset, "tsp_llm_prompts_9000.json", problems_per_size=3000)
+        create_prompt_dataset(dataset, "tsp_llm_prompts_100_ds.json", problems_per_size=3000)
         
         # Print a sample prompt
         sample_size = 5  # Using a smaller size for clearer display
