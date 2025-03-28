@@ -20,6 +20,11 @@ def load_tsp_dataset(filename: str = "tsp_dataset_100_problems.json") -> Dict:
         dataset = json.load(f)
     return dataset
 
+def load_tsp_prompt_dataset(filename: str = "tsp_llm_prompts.json") -> Dict:
+    with open(filename, 'r') as f:
+        dataset = json.load(f)
+    return dataset
+
 def format_distance_matrix(matrix: List[List[float]]) -> str:
     """
     Format the distance matrix with headers and column alignment.
