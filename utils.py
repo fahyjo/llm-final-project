@@ -1,7 +1,7 @@
 import math
 import re
 from typing import Dict, List, Tuple
-
+import numpy as np
 
 def calculate_path_distance(coords: Dict[str, List[float]], path: List[int]) -> float:
     """
@@ -14,6 +14,12 @@ def calculate_path_distance(coords: Dict[str, List[float]], path: List[int]) -> 
     Returns:
         Total Euclidean distance of the path.
     """
+    if not (isinstance(path, list)):
+        return np.inf
+    
+    if not set(path) == set(range(len(list))):
+        return np.inf
+    
     total_distance = 0
     for i in range(len(path)):
         current_node = path[i]
@@ -59,7 +65,7 @@ def extract_answer(text):
     """
     matches = re.findall(r"<trace>([\d,]+)<\/trace>|<trace>([\d,]+)<trace>", text)
     if not matches:
-        return None
+        return []
     
     # Extract the last non-empty match
     last_match = [m for match in matches for m in match if m][-1]

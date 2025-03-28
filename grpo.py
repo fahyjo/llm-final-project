@@ -14,14 +14,9 @@ from utils import calculate_path_distance, extract_answer, extract_total_length,
 # Load and prep dataset
 
 SYSTEM_PROMPT = """
-Respond in the following format:
-
-<reasoning>
-...
-</reasoning>
-<trace>
-...
-</trace>
+    first thinks about the reasoning process in the mind and then provides the user with the answer. The reasoning
+    process and answer are enclosed within <reasoning> </reasoning> and <trace> </trace> tags, respectively, i.e.,
+    <reasoning> reasoning process here </reasoning><trace> answer here </trace>
 """
 
 XML_COT_FORMAT = """\
@@ -38,11 +33,6 @@ def extract_xml_answer(text: str) -> str:
     answer = answer.split("</answer>")[0]
     return answer.strip()
 
-def extract_hash_answer(text: str) -> str | None:
-    if "####" not in text:
-        return None
-    return text.split("####")[1].strip().replace(",", "").replace("$", "")
-
 
 
 def get_TSP_questions():
@@ -52,13 +42,13 @@ def get_TSP_questions():
 
     data = [{ # type: ignore
         'prompt': [
-            {'role': 'system', 'content': SYSTEM_PROMPT+x['prompt'][0]['content']},
+            {'role': 'system', 'content': SYSTEM_PROMPT},
             #{'role': 'user', 'content': 'What is the largest single-digit prime number?'},
             #{'role': 'assistant', 'content': XML_COT_FORMAT.format(
             #    reasoning="9 is divisble by 3 and 8 is divisible by 2, but 7 is prime.",
             #    answer="7"
             #)},
-            {'role': 'user', 'content': x['prompt'][1]['content']}
+            {'role': 'user', 'content': x['prompt'][0]['content']+x['prompt'][1]['content']}
         ],
         'answer': x['solution']
     } for x in data]
@@ -69,19 +59,24 @@ def get_TSP_questions():
 # reward functions
 def optimal_solution_reward(prompts, completions, answer, **kwargs) -> list[float]:
     responses = [completion[0]['content'] for completion in completions]
-    coords = extract_nodes(prompts[0]['content'])
+    coords = extract_nodes(prompts[0][1]['content'])
     extracted_responses = [extract_answer(r) for r in responses]
     distances = [calculate_path_distance(coords, p) for p in extracted_responses]
-    return [2.0 if d-.1 <= answer['distance'] else 0.0 for d in distances]
+    return [2.0 if d-.1 <= answer[0]['distance'] else 0.0 for d in distances]
 
 def improvement_reward_func(prompts, completions, answer, **kwargs) -> list[float]:
     responses = [completion[0]['content'] for completion in completions]
-    prev_best = min(extract_total_length(prompts[0]['content']))
-    coords = extract_nodes(prompts[0]['content'])
+    prev_best = min(extract_total_length(prompts[0][1]['content']))
+    coords = extract_nodes(prompts[0][1]['content'])
     extracted_responses = [extract_answer(r) for r in responses]
     distances = [calculate_path_distance(coords, p) for p in extracted_responses]
-    return [1.0 if d < prev_best else 0.0 for d in distances]
+    return [2.0 if d < prev_best else 0.0 for d in distances]
 
+def valid_response_reward_func(prompts, completions, answer, **kwargs) -> list[float]:
+    responses = [completion[0]['content'] for completion in completions]
+    num_coords = len(extract_nodes(prompts[0][1]['content']))
+    extracted_responses = [extract_answer(r) for r in responses]
+    return [1.0 if len(r) == num_coords and set(r) == set(range(num_coords)) else 0.0 for r in extracted_responses]
 
 def strict_format_reward_func(completions, **kwargs) -> list[float]:
     """Reward function that checks if the completion has a specific format."""
