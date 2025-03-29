@@ -124,6 +124,6 @@ def extract_nodes(text_string):
         coord_str = coord_str.strip("()")
         x, y = map(int, coord_str.split(", "))
         
-        nodes_dict[node_num] = (x, y)
+        nodes_dict[str(node_num)] = (x, y)
     
     return nodes_dict
