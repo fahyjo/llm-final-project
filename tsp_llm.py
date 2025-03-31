@@ -394,24 +394,15 @@ if __name__ == "__main__":
     
     try:
         # Load the TSP dataset
-        dataset = load_tsp_dataset("tsp_dataset_100_problems.json")
+        dataset = load_tsp_dataset("tsp_dataset_9000_problems.json")
         print("TSP dataset loaded successfully.")
 
         # Process dataset for compatibility with rest of script
         dataset = process_dataset(dataset)
         
         # Create LLM prompts dataset
-        create_prompt_dataset(dataset, "tsp_llm_prompts_100_ds.json", problems_per_size=3000)
+        create_prompt_dataset(dataset, "tsp_prompts_9000.json", problems_per_size=100)
         
-        # Print a sample prompt
-        sample_size = 5  # Using a smaller size for clearer display
-        sample_problem = dataset[f"size_{sample_size}"][0]
-        sample_prompt = generate_llm_prompt_new(sample_problem['tsp'])
-        
-        print("\nSample LLM Prompt for a size-5 problem:")
-        print("-" * 80)
-        print(sample_prompt)
-        print("-" * 80)
         
     except FileNotFoundError:
         print("TSP dataset file not found. Please run the dataset generation script first.")
