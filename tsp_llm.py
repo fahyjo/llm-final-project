@@ -1,12 +1,11 @@
 import json
 import random
-import time
 from typing import Dict, List, Tuple, Any
 import numpy as np
 from tqdm import tqdm
 from tsp import calculate_tsp_distance, generate_tsp_distance_matrix
 
-def load_tsp_dataset(filename: str = "tsp_dataset_100_problems.json") -> Dict:
+def load_tsp_dataset(filename: str) -> Dict:
     """
     Load the TSP dataset from a JSON file.
     
@@ -16,11 +15,6 @@ def load_tsp_dataset(filename: str = "tsp_dataset_100_problems.json") -> Dict:
     Returns:
         Dictionary containing the TSP dataset.
     """
-    with open(filename, 'r') as f:
-        dataset = json.load(f)
-    return dataset
-
-def load_tsp_prompt_dataset(filename: str = "tsp_llm_prompts.json") -> Dict:
     with open(filename, 'r') as f:
         dataset = json.load(f)
     return dataset
@@ -75,7 +69,7 @@ def generate_random_solution(tsp: Dict[int, Tuple[int, int]]) -> List[int]:
     random.shuffle(nodes)
     return [0] + nodes + [0]
 
-def generate_sample_solutions(tsp: Dict[int, Tuple[int, int]], num_samples: int = 4) -> List[Dict[str, Any]]:
+def generate_sample_solutions(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -> List[Dict[str, Any]]:
     """
     Generate unique sample solutions for a TSP problem.
     
@@ -249,7 +243,7 @@ Think through your approach step by step, showing your calculations. Then provid
     
     return prompt
 
-def generate_llm_prompt_ds(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -> str:
+def generate_llm_prompt(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -> str:
     """
     Generate a prompt for an LLM to solve a TSP problem.
     
@@ -303,7 +297,13 @@ These routes have already been tried:"""
 
 ## Output Format
 Think through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:
-<answer>0,X,X,X,X,X,X,X,X,X,0</answer>"""
+<reasoning>
+reasoning process
+</reasoning>
+<trace>
+0,X,X,X,X,X,X,X,X,X,0
+</trace>
+"""
     
     return USERPROMPT
 
@@ -335,7 +335,7 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str = "tsp_llm_pro
         
         # Generate llm prompt
         for problem in (selected_problems):
-            prompt = generate_llm_prompt_ds(problem['tsp'])
+            prompt = generate_llm_prompt(problem['tsp'])
             
             # Add to the dataset
             prompt_dataset.append({
@@ -394,14 +394,14 @@ if __name__ == "__main__":
     
     try:
         # Load the TSP dataset
-        dataset = load_tsp_dataset("tsp_dataset_9000_problems.json")
+        dataset = load_tsp_dataset("tsp_benchmark_dataset.json")
         print("TSP dataset loaded successfully.")
 
         # Process dataset for compatibility with rest of script
         dataset = process_dataset(dataset)
         
         # Create LLM prompts dataset
-        create_prompt_dataset(dataset, "tsp_prompts_9000.json", problems_per_size=100)
+        create_prompt_dataset(dataset, "tsp_benchmark_prompt_dataset.json", problems_per_size=30)
         
         
     except FileNotFoundError:
