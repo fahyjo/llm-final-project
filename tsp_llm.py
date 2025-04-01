@@ -243,7 +243,7 @@ Think through your approach step by step, showing your calculations. Then provid
     
     return prompt
 
-def generate_llm_prompt(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -> str:
+def generate_llm_prompt(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -> Tuple[str, int]:
     """
     Generate a prompt for an LLM to solve a TSP problem.
     
@@ -252,13 +252,15 @@ def generate_llm_prompt(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -
         num_samples: Number of sample solutions to include in the prompt.
         
     Returns:
-        Formatted prompt string for the LLM.
+        str: Formatted prompt string for the LLM.
+        int: Distance of best reference path provided in prompt
     """
     # Create distance matrix
     distance_matrix = generate_tsp_distance_matrix(tsp)
     
     # Generate sample solutions
     samples = generate_sample_solutions(tsp, num_samples)
+    reference_distance = round(samples[-1]["distance"])
     
     # Start building the prompt
     USERPROMPT = f"""You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.
@@ -305,9 +307,9 @@ reasoning process
 </trace>
 """
     
-    return USERPROMPT
+    return USERPROMPT, reference_distance
 
-def create_prompt_dataset(tsp_dataset: Dict, output_filename: str = "tsp_llm_prompts.json", problems_per_size: int = 5) -> None:
+def create_prompt_dataset(tsp_dataset: Dict, output_filename: str, problems_per_size: int) -> None:
     """
     Create a dataset of LLM prompts from the TSP dataset.
     
@@ -316,13 +318,14 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str = "tsp_llm_pro
         output_filename: Path to save the LLM prompts dataset.
         problems_per_size: Number of problems to include for each size.
     """
-    prompt_dataset = []
+    prompt_dataset = {}
     
-    sizes = [5, 10, 15]
+    sizes = list(range(5,16))
     pbar = tqdm(total=len(sizes) * problems_per_size, desc="Generating LLM Prompts")
     
     for size in sizes:
         size_key = f"size_{size}"
+        size_dataset = []
         
         # Get problems of this size
         problems = tsp_dataset[size_key]
@@ -335,13 +338,15 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str = "tsp_llm_pro
         
         # Generate llm prompt
         for problem in (selected_problems):
-            prompt = generate_llm_prompt(problem['tsp'])
+            prompt, reference_distance = generate_llm_prompt(problem['tsp'])
             
-            # Add to the dataset
-            prompt_dataset.append({
+            # Add to size dataset
+            size_dataset.append({
                 "problem_id": problem["problem_id"],
                 "size": size,
+                "coordinates": problem["tsp"],
                 "prompt": prompt,
+                "reference_distance": reference_distance,
                 "solution": {
                     "path": problem["solution"]["path"],
                     "distance": problem["solution"]["distance"]
@@ -349,6 +354,9 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str = "tsp_llm_pro
             })
             
             pbar.update(1)
+
+        # Add to prompt dataset
+        prompt_dataset[size_key] = size_dataset
     
     pbar.close()
     
@@ -394,14 +402,14 @@ if __name__ == "__main__":
     
     try:
         # Load the TSP dataset
-        dataset = load_tsp_dataset("tsp_training_dataset.json")
+        dataset = load_tsp_dataset("tsp_benchmark_dataset.json")
         print("TSP dataset loaded successfully.")
 
         # Process dataset for compatibility with rest of script
         dataset = process_dataset(dataset)
         
         # Create LLM prompts dataset
-        create_prompt_dataset(dataset, "tsp_prompt_training_dataset.json", problems_per_size=30)
+        create_prompt_dataset(dataset, "tsp_benchmark_prompt_dataset.json", problems_per_size=10)
         
         
     except FileNotFoundError:
