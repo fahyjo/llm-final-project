@@ -394,14 +394,14 @@ if __name__ == "__main__":
     
     try:
         # Load the TSP dataset
-        dataset = load_tsp_dataset("tsp_benchmark_dataset.json")
+        dataset = load_tsp_dataset("tsp_training_dataset.json")
         print("TSP dataset loaded successfully.")
 
         # Process dataset for compatibility with rest of script
         dataset = process_dataset(dataset)
         
         # Create LLM prompts dataset
-        create_prompt_dataset(dataset, "tsp_benchmark_prompt_dataset.json", problems_per_size=30)
+        create_prompt_dataset(dataset, "tsp_prompt_training_dataset.json", problems_per_size=30)
         
         
     except FileNotFoundError:

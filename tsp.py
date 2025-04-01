@@ -294,8 +294,8 @@ if __name__ == "__main__":
     np.random.seed(42)
     
     # Define problem sizes and count per size
-    sizes = [5, 10, 15]
-    count_per_size = 30
+    sizes = list(range(5,16))
+    count_per_size = 90
     
     print(f"Creating a dataset with {count_per_size} problems for each size: {sizes}")
     print(f"Total problems: {len(sizes) * count_per_size}")
