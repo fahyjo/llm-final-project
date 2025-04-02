@@ -58,27 +58,39 @@ def calculate_path_distance(coords: Dict[str, List[float]], path: List[int]) -> 
 #     return solutions
 
        
-def extract_answer(text):
+def extract_trace(response: str) -> List[int]:
     """
-    Extracts the last occurrence of a list inside <trace> brackets (both <trace>list<trace> and <trace>list</trace>)
-    and removes trailing 0 if present.
+    Extracts the last occurrence of a list of ints inside <trace></trace> or <trace><trace> brackets.
+
+    Args:
+        response: The model response
+    
+    Returns:
+        List[int]: The last trace provided by the model
     """
-    matches = re.findall(r"<trace>([\d,]+)<\/trace>|<trace>([\d,]+)<trace>", text)
+
+    # Regex pattern to match <trace>...</trace> and <trace>...<trace>
+    matches = re.findall(r"<trace>\s*([\d]+(?:\s*,\s*[\d]+)*)\s*</trace>|<trace>\s*([\d]+(?:\s*,\s*[\d]+)*)\s*<trace>", response)
     if not matches:
         return []
     
     # Extract the last non-empty match
-    last_match = [m for match in matches for m in match if m][-1]
-    numbers = last_match.split(",")
-    
-    # Remove trailing '0' if present
-    if numbers and numbers[-1] == "0":
-        numbers.pop()
-    
-    return [int(num) for num in numbers]
+    last_match = next(filter(None, matches[-1]))
 
-def extract_total_length(text):
-    return [int(match) for match in re.findall(r'total length:\s*(\d+)', text)]
+    # Convert to list of integers
+    return [int(num) for num in re.split(r"\s*,\s*", last_match)]
+
+def extract_total_length(prompt: str) -> List[int]:
+    """
+    Extracts reference distances provided in prompt.
+
+    Args:
+      prompt: The model prompt
+
+    Returns:
+      List[int]: The reference distances
+    """
+    return [int(match) for match in re.findall(r'total length:\s*(\d+)', prompt)]
 
 
 def extract_nodes(text_string):
@@ -124,6 +136,6 @@ def extract_nodes(text_string):
         coord_str = coord_str.strip("()")
         x, y = map(int, coord_str.split(", "))
         
-        nodes_dict[str(node_num)] = (x, y)
+        nodes_dict[node_num] = (x, y)
     
     return nodes_dict
