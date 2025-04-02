@@ -1,0 +1,297 @@
+{
+    "size_5": [
+        {
+            "input token count": 555,
+            "average output token count": 1645.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 0.6666666666666666,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 556,
+            "average output token count": 823.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 2.0,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.3333333333333333
+        },
+        {
+            "input token count": 557,
+            "average output token count": 616.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 0.6666666666666666,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.3333333333333333
+        },
+        {
+            "input token count": 559,
+            "average output token count": 2048.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 0.6666666666666666,
+            "average valid response reward": 0.6666666666666666,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.3333333333333333
+        },
+        {
+            "input token count": 560,
+            "average output token count": 2048.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.0,
+            "average valid response reward": 0.3333333333333333,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.3333333333333333
+        },
+        {
+            "input token count": 560,
+            "average output token count": 1480.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.6666666666666666,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 537,
+            "average output token count": 1027.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 0.6666666666666666,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 558,
+            "average output token count": 2048.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.6666666666666666,
+            "average valid response reward": 0.6666666666666666,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.3333333333333333
+        },
+        {
+            "input token count": 562,
+            "average output token count": 2048.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.0,
+            "average valid response reward": 0.6666666666666666,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.16666666666666666
+        },
+        {
+            "input token count": 552,
+            "average output token count": 553.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.0,
+            "average valid response reward": 0.6666666666666666,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 559,
+            "average output token count": 1154.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.0,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.16666666666666666
+        },
+        {
+            "input token count": 559,
+            "average output token count": 1311.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 0.6666666666666666,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.3333333333333333
+        },
+        {
+            "input token count": 563,
+            "average output token count": 1676.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.0,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 555,
+            "average output token count": 1686.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 0.0,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.3333333333333333
+        },
+        {
+            "input token count": 565,
+            "average output token count": 889.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 1.3333333333333333,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 555,
+            "average output token count": 2048.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.0,
+            "average valid response reward": 0.6666666666666666,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.16666666666666666
+        },
+        {
+            "input token count": 558,
+            "average output token count": 1182.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 0.6666666666666666,
+            "average valid response reward": 0.6666666666666666,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 555,
+            "average output token count": 649.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 0.0,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 562,
+            "average output token count": 1101.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.0,
+            "average valid response reward": 0.6666666666666666,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 555,
+            "average output token count": 2048.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.0,
+            "average valid response reward": 0.6666666666666666,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.16666666666666666
+        },
+        {
+            "input token count": 554,
+            "average output token count": 820.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.0,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.3333333333333333
+        },
+        {
+            "input token count": 555,
+            "average output token count": 434.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 0.6666666666666666,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.3333333333333333
+        },
+        {
+            "input token count": 556,
+            "average output token count": 627.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 1.3333333333333333,
+            "average valid response reward": 0.6666666666666666,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 540,
+            "average output token count": 462.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 1.3333333333333333,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 555,
+            "average output token count": 2048.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 0.6666666666666666,
+            "average valid response reward": 0.6666666666666666,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.3333333333333333
+        },
+        {
+            "input token count": 559,
+            "average output token count": 703.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.6666666666666666,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 560,
+            "average output token count": 1597.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.0,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        {
+            "input token count": 556,
+            "average output token count": 1795.0,
+            "average optimal solution reward": 0.6666666666666666,
+            "average improvement reward": 2.0,
+            "average valid response reward": 1.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        }
+    ],
+    "size_10": [
+        {
+            "input token count": 1024,
+            "average output token count": 496.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 1.3333333333333333,
+            "average valid response reward": 0.6666666666666666,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        }
+    ],
+    "size_15": [],
+    "summary": {
+        "size_5": {
+            "average input token count": 556.3214285714286,
+            "average output token count": 1305.9285714285713,
+            "average optimal solution reward": 0.3095238095238095,
+            "average improvement reward": 0.5476190476190476,
+            "average valid response reward": 0.8571428571428571,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.39285714285714285
+        },
+        "size_10": {
+            "average input token count": 1024.0,
+            "average output token count": 496.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 1.3333333333333333,
+            "average valid response reward": 0.6666666666666666,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.5
+        },
+        "size_15": {
+            "average input token count": 0.0,
+            "average output token count": 0.0,
+            "average optimal solution reward": 0.0,
+            "average improvement reward": 0.0,
+            "average valid response reward": 0.0,
+            "average strict format reward": 0.0,
+            "average soft format reward": 0.0
+        }
+    }
+}

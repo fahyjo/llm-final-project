@@ -385,14 +385,28 @@ def process_dataset(dataset: Dict) -> Dict:
         for problem in problems:
             # Replace coordinates with tsp
             coordinates = problem['coordinates']
-            tsp = {}
-            for node in coordinates:
-                [x, y] = coordinates[node]
-                tsp[int(node)] = (x, y)
+            tsp = coordinates_to_tsp(coordinates)
             del problem['coordinates']
             problem['tsp'] = tsp
 
     return dataset
+
+def coordinates_to_tsp(coordinates: Dict[str, List[int]]) -> Dict[int, Tuple[int, int]]:
+    """
+    Convert coordinates (Dict[str, List[int]] from json formatting) to tsp (Dict[int, Tuple[int, int]])
+    for compatibility with rest of program.
+
+    Args:
+        coordinates: x, y coordinates of tsp problem
+
+    Returns:
+        Dict[int, Tuple[int, int]]: tsp 
+    """
+    tsp = {}
+    for node in coordinates:
+        [x, y] = coordinates[node]
+        tsp[int(node)] = (x, y)
+    return tsp
 
 # Example usage
 if __name__ == "__main__":
