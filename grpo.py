@@ -122,7 +122,7 @@ def improvement_reward_func(completions, **kwargs) -> list[float]:
     distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 1.0 else np.inf for i in range(len(traces))]
 
     # 2.0 if each response that is a valid trace beats the reference distance
-    return [2.0 if ((valid_response_rewards[i] == 1.0) and (distances[i] < reference_distance)) else 0.0 for i in range(len(responses))]
+    return [2.0 if ((valid_response_rewards[i] == 1.0) and (distances[i] <= reference_distance)) else 0.0 for i in range(len(responses))]
 
 def valid_response_reward_func(completions, **kwargs) -> list[float]:
     """ Score = 1.0 if response solution contains trace with correct length, starts with node 0,
