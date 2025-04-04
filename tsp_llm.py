@@ -349,7 +349,7 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str, problems_per_
                 "reference_distance": reference_distance,
                 "solution": {
                     "path": problem["solution"]["path"],
-                    "distance": problem["solution"]["distance"]
+                    "distance": round(problem["solution"]["distance"])
                 }
             })
             
@@ -416,7 +416,7 @@ if __name__ == "__main__":
     
     try:
         # Load the TSP dataset
-        dataset = load_tsp_dataset("tsp_benchmark_dataset.json")
+        dataset = load_tsp_dataset("tsp_training_dataset.json")
         print("TSP dataset loaded successfully.")
 
         # Process dataset for compatibility with rest of script
