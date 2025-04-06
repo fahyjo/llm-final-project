@@ -178,10 +178,10 @@ if __name__ == "__main__":
     # Load model and tokenizer
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name = MODEL,
-        max_seq_length = 4200,        # Can increase for longer reasoning traces
+        max_seq_length = 3200,        # Can increase for longer reasoning traces
         load_in_4bit = True,          # False for LoRA 16
         fast_inference = True,        # Enable vLLM fast inference
-        max_lora_rank = 64,           # Larger rank = smarter, but slower
+        max_lora_rank = 32,           # Larger rank = smarter, but slower
         gpu_memory_utilization = 0.5, # Reduce if out of memory
         dtype=torch.bfloat16
     )
@@ -189,12 +189,12 @@ if __name__ == "__main__":
     # Apply PEFT
     model = FastLanguageModel.get_peft_model(
         model,
-        r = 64,                                     # Choose any number > 0 ! Suggested 8, 16, 32, 64, 128
+        r = 32,                                     # Choose any number > 0 ! Suggested 8, 16, 32, 64, 128
         target_modules = [
             "q_proj", "k_proj", "v_proj", "o_proj",
             "gate_proj", "up_proj", "down_proj",
         ],                                          # Remove QKVO if out of memory
-        lora_alpha = 64,
+        lora_alpha = 32,
         use_gradient_checkpointing = "unsloth",     # Enable long context finetuning
         random_state = 3407,
     )
@@ -237,10 +237,10 @@ if __name__ == "__main__":
         gradient_accumulation_steps = 1, # Increase to 4 for smoother training
         num_generations = 4,             # Decrease if out of memory
         max_prompt_length = 600,         # SPECIFICALLY FOR SIZE 5
-        max_completion_length = 3500,
+        max_completion_length = 2600,
         num_train_epochs = 1,            # Set to 1 for a full training run
         max_steps = len(dataset),
-        save_steps = 250,
+        save_steps = 100,
         max_grad_norm = 0.1,
         report_to = "wandb",              # Can use Weights & Biases
         output_dir = TRAINING_OUTPUT_DIR,
