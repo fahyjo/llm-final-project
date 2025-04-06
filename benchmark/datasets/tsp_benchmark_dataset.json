@@ -1,0 +1,1954 @@
+{
+  "size_5": [
+    {
+      "problem_id": "tsp_5_0",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          63,
+          -72
+        ],
+        "1": [
+          -94,
+          89
+        ],
+        "2": [
+          -30,
+          -38
+        ],
+        "3": [
+          -43,
+          -65
+        ],
+        "4": [
+          88,
+          -74
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (63, -72)\nNode: 1: (-94, 89)\nNode: 2: (-30, -38)\nNode: 3: (-43, -65)\nNode: 4: (88, -74)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 224.9  99.0 106.2  25.1\n1     224.9   0.0 142.2 162.2 244.3\n2      99.0 142.2   0.0  30.0 123.4\n3     106.2 162.2  30.0   0.0 131.3\n4      25.1 244.3 123.4 131.3   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,4,2,1,0 with total length: 728\nRoute: 0,1,2,4,3,0 with total length: 728\nRoute: 0,4,1,3,2,0 with total length: 561\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 561\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 561,
+      "solution": {
+        "path": [
+          0,
+          3,
+          2,
+          1,
+          4,
+          0
+        ],
+        "distance": 548
+      }
+    },
+    {
+      "problem_id": "tsp_5_2",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -41,
+          29
+        ],
+        "1": [
+          54,
+          -94
+        ],
+        "2": [
+          43,
+          -50
+        ],
+        "3": [
+          83,
+          66
+        ],
+        "4": [
+          79,
+          39
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-41, 29)\nNode: 1: (54, -94)\nNode: 2: (43, -50)\nNode: 3: (83, 66)\nNode: 4: (79, 39)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 155.4 115.3 129.4 120.4\n1     155.4   0.0  45.4 162.6 135.3\n2     115.3  45.4   0.0 122.7  96.0\n3     129.4 162.6 122.7   0.0  27.3\n4     120.4 135.3  96.0  27.3   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,2,4,1,3,0 with total length: 639\nRoute: 0,2,4,3,1,0 with total length: 557\nRoute: 0,4,3,2,1,0 with total length: 471\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 471\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 471,
+      "solution": {
+        "path": [
+          0,
+          2,
+          1,
+          4,
+          3,
+          0
+        ],
+        "distance": 453
+      }
+    },
+    {
+      "problem_id": "tsp_5_3",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          7,
+          -44
+        ],
+        "1": [
+          14,
+          50
+        ],
+        "2": [
+          -29,
+          -99
+        ],
+        "3": [
+          94,
+          -60
+        ],
+        "4": [
+          78,
+          8
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (7, -44)\nNode: 1: (14, 50)\nNode: 2: (-29, -99)\nNode: 3: (94, -60)\nNode: 4: (78, 8)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  94.3  65.7  88.5  88.0\n1      94.3   0.0 155.1 136.0  76.6\n2      65.7 155.1   0.0 129.0 151.3\n3      88.5 136.0 129.0   0.0  69.9\n4      88.0  76.6 151.3  69.9   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,2,3,4,0 with total length: 536\nRoute: 0,1,3,4,2,0 with total length: 517\nRoute: 0,1,4,3,2,0 with total length: 435\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 435\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 435,
+      "solution": {
+        "path": [
+          0,
+          1,
+          4,
+          3,
+          2,
+          0
+        ],
+        "distance": 435
+      }
+    },
+    {
+      "problem_id": "tsp_5_4",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -13,
+          -29
+        ],
+        "1": [
+          -61,
+          -45
+        ],
+        "2": [
+          95,
+          -14
+        ],
+        "3": [
+          -74,
+          -77
+        ],
+        "4": [
+          -3,
+          -76
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-13, -29)\nNode: 1: (-61, -45)\nNode: 2: (95, -14)\nNode: 3: (-74, -77)\nNode: 4: (-3, -76)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  50.6 109.0  77.6  48.1\n1      50.6   0.0 159.1  34.5  65.8\n2     109.0 159.1   0.0 180.4 116.0\n3      77.6  34.5 180.4   0.0  71.0\n4      48.1  65.8 116.0  71.0   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,4,1,2,0 with total length: 482\nRoute: 0,3,1,2,4,0 with total length: 435\nRoute: 0,2,4,3,1,0 with total length: 381\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 381\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 381,
+      "solution": {
+        "path": [
+          0,
+          1,
+          3,
+          4,
+          2,
+          0
+        ],
+        "distance": 381
+      }
+    },
+    {
+      "problem_id": "tsp_5_5",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -9,
+          -12
+        ],
+        "1": [
+          54,
+          -33
+        ],
+        "2": [
+          -89,
+          86
+        ],
+        "3": [
+          17,
+          37
+        ],
+        "4": [
+          -69,
+          -4
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-9, -12)\nNode: 1: (54, -33)\nNode: 2: (-89, 86)\nNode: 3: (17, 37)\nNode: 4: (-69, -4)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  66.4 126.5  55.5  60.5\n1      66.4   0.0 186.0  79.2 126.4\n2     126.5 186.0   0.0 116.8  92.2\n3      55.5  79.2 116.8   0.0  95.3\n4      60.5 126.4  92.2  95.3   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,4,3,2,1,0 with total length: 525\nRoute: 0,2,4,1,3,0 with total length: 480\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 480\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 480,
+      "solution": {
+        "path": [
+          0,
+          1,
+          3,
+          2,
+          4,
+          0
+        ],
+        "distance": 415
+      }
+    },
+    {
+      "problem_id": "tsp_5_6",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -80,
+          41
+        ],
+        "1": [
+          -25,
+          60
+        ],
+        "2": [
+          58,
+          -8
+        ],
+        "3": [
+          47,
+          -51
+        ],
+        "4": [
+          80,
+          -83
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-80, 41)\nNode: 1: (-25, 60)\nNode: 2: (58, -8)\nNode: 3: (47, -51)\nNode: 4: (80, -83)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  58.2 146.4 156.8 202.4\n1      58.2   0.0 107.3 132.3 177.4\n2     146.4 107.3   0.0  44.4  78.2\n3     156.8 132.3  44.4   0.0  46.0\n4     202.4 177.4  78.2  46.0   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,1,4,2,0 with total length: 691\nRoute: 0,4,2,1,3,0 with total length: 677\nRoute: 0,1,2,3,4,0 with total length: 458\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 458\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 458,
+      "solution": {
+        "path": [
+          0,
+          3,
+          4,
+          2,
+          1,
+          0
+        ],
+        "distance": 446
+      }
+    },
+    {
+      "problem_id": "tsp_5_11",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          98,
+          -86
+        ],
+        "1": [
+          -42,
+          -92
+        ],
+        "2": [
+          -20,
+          2
+        ],
+        "3": [
+          -32,
+          -84
+        ],
+        "4": [
+          -46,
+          45
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (98, -86)\nNode: 1: (-42, -92)\nNode: 2: (-20, 2)\nNode: 3: (-32, -84)\nNode: 4: (-46, 45)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 140.1 147.2 130.0 194.7\n1     140.1   0.0  96.5  12.8 137.1\n2     147.2  96.5   0.0  86.8  50.2\n3     130.0  12.8  86.8   0.0 129.8\n4     194.7 137.1  50.2 129.8   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,2,3,4,0 with total length: 648\nRoute: 0,1,4,3,2,0 with total length: 641\nRoute: 0,2,4,1,3,0 with total length: 477\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 477\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 477,
+      "solution": {
+        "path": [
+          0,
+          2,
+          4,
+          1,
+          3,
+          0
+        ],
+        "distance": 477
+      }
+    },
+    {
+      "problem_id": "tsp_5_13",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -65,
+          -37
+        ],
+        "1": [
+          90,
+          43
+        ],
+        "2": [
+          37,
+          -33
+        ],
+        "3": [
+          91,
+          49
+        ],
+        "4": [
+          9,
+          49
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-65, -37)\nNode: 1: (90, 43)\nNode: 2: (37, -33)\nNode: 3: (91, 49)\nNode: 4: (9, 49)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 174.4 102.1 178.1 113.5\n1     174.4   0.0  92.7   6.1  81.2\n2     102.1  92.7   0.0  98.2  86.6\n3     178.1   6.1  98.2   0.0  82.0\n4     113.5  81.2  86.6  82.0   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,2,3,4,1,0 with total length: 538\nRoute: 0,2,3,1,4,0 with total length: 401\nRoute: 0,2,1,3,4,0 with total length: 396\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 396\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 396,
+      "solution": {
+        "path": [
+          0,
+          2,
+          1,
+          3,
+          4,
+          0
+        ],
+        "distance": 396
+      }
+    },
+    {
+      "problem_id": "tsp_5_14",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          2,
+          -8
+        ],
+        "1": [
+          -44,
+          -65
+        ],
+        "2": [
+          30,
+          26
+        ],
+        "3": [
+          -77,
+          93
+        ],
+        "4": [
+          -88,
+          -72
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (2, -8)\nNode: 1: (-44, -65)\nNode: 2: (30, 26)\nNode: 3: (-77, 93)\nNode: 4: (-88, -72)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  73.2  44.0 128.2 110.4\n1      73.2   0.0 117.3 161.4  44.6\n2      44.0 117.3   0.0 126.2 153.4\n3     128.2 161.4 126.2   0.0 165.4\n4     110.4  44.6 153.4 165.4   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,3,2,4,0 with total length: 625\nRoute: 0,4,2,3,1,0 with total length: 625\nRoute: 0,2,1,4,3,0 with total length: 499\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 499\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 499,
+      "solution": {
+        "path": [
+          0,
+          1,
+          4,
+          3,
+          2,
+          0
+        ],
+        "distance": 453
+      }
+    },
+    {
+      "problem_id": "tsp_5_16",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          19,
+          35
+        ],
+        "1": [
+          -36,
+          41
+        ],
+        "2": [
+          -98,
+          74
+        ],
+        "3": [
+          84,
+          -71
+        ],
+        "4": [
+          74,
+          37
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (19, 35)\nNode: 1: (-36, 41)\nNode: 2: (-98, 74)\nNode: 3: (84, -71)\nNode: 4: (74, 37)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  55.3 123.3 124.3  55.0\n1      55.3   0.0  70.2 164.1 110.1\n2     123.3  70.2   0.0 232.7 175.9\n3     124.3 164.1 232.7   0.0 108.5\n4      55.0 110.1 175.9 108.5   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,4,2,3,1,0 with total length: 683\nRoute: 0,3,2,1,4,0 with total length: 592\nRoute: 0,4,2,1,3,0 with total length: 590\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 590\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 590,
+      "solution": {
+        "path": [
+          0,
+          2,
+          1,
+          3,
+          4,
+          0
+        ],
+        "distance": 521
+      }
+    },
+    {
+      "problem_id": "tsp_5_17",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          92,
+          -32
+        ],
+        "1": [
+          96,
+          64
+        ],
+        "2": [
+          -13,
+          -72
+        ],
+        "3": [
+          -25,
+          11
+        ],
+        "4": [
+          -60,
+          16
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (92, -32)\nNode: 1: (96, 64)\nNode: 2: (-13, -72)\nNode: 3: (-25, 11)\nNode: 4: (-60, 16)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  96.1 112.4 124.7 159.4\n1      96.1   0.0 174.3 132.1 163.2\n2     112.4 174.3   0.0  83.9  99.8\n3     124.7 132.1  83.9   0.0  35.4\n4     159.4 163.2  99.8  35.4   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,4,1,3,2,0 with total length: 651\nRoute: 0,3,1,4,2,0 with total length: 632\nRoute: 0,2,1,4,3,0 with total length: 610\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 610\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 610,
+      "solution": {
+        "path": [
+          0,
+          1,
+          3,
+          4,
+          2,
+          0
+        ],
+        "distance": 476
+      }
+    },
+    {
+      "problem_id": "tsp_5_19",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -24,
+          63
+        ],
+        "1": [
+          29,
+          55
+        ],
+        "2": [
+          -50,
+          -61
+        ],
+        "3": [
+          -5,
+          95
+        ],
+        "4": [
+          -59,
+          38
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-24, 63)\nNode: 1: (29, 55)\nNode: 2: (-50, -61)\nNode: 3: (-5, 95)\nNode: 4: (-59, 38)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  53.6 126.7  37.2  43.0\n1      53.6   0.0 140.3  52.5  89.6\n2     126.7 140.3   0.0 162.4  99.4\n3      37.2  52.5 162.4   0.0  78.5\n4      43.0  89.6  99.4  78.5   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,2,3,1,4,0 with total length: 474\nRoute: 0,4,1,2,3,0 with total length: 473\nRoute: 0,4,2,3,1,0 with total length: 411\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 411\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 411,
+      "solution": {
+        "path": [
+          0,
+          3,
+          1,
+          2,
+          4,
+          0
+        ],
+        "distance": 372
+      }
+    },
+    {
+      "problem_id": "tsp_5_20",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          99,
+          35
+        ],
+        "1": [
+          -100,
+          53
+        ],
+        "2": [
+          -18,
+          25
+        ],
+        "3": [
+          -96,
+          -72
+        ],
+        "4": [
+          -8,
+          -22
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (99, 35)\nNode: 1: (-100, 53)\nNode: 2: (-18, 25)\nNode: 3: (-96, -72)\nNode: 4: (-8, -22)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 199.8 117.4 222.4 121.2\n1     199.8   0.0  86.6 125.1 118.7\n2     117.4  86.6   0.0 124.5  48.1\n3     222.4 125.1 124.5   0.0 101.2\n4     121.2 118.7  48.1 101.2   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,2,3,4,1,0 with total length: 662\nRoute: 0,4,2,3,1,0 with total length: 619\nRoute: 0,2,4,3,1,0 with total length: 592\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 592\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 592,
+      "solution": {
+        "path": [
+          0,
+          2,
+          1,
+          3,
+          4,
+          0
+        ],
+        "distance": 552
+      }
+    },
+    {
+      "problem_id": "tsp_5_22",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          36,
+          96
+        ],
+        "1": [
+          -68,
+          -68
+        ],
+        "2": [
+          68,
+          21
+        ],
+        "3": [
+          40,
+          -58
+        ],
+        "4": [
+          -33,
+          35
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (36, 96)\nNode: 1: (-68, -68)\nNode: 2: (68, 21)\nNode: 3: (40, -58)\nNode: 4: (-33, 35)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 194.2  81.5 154.1  92.1\n1     194.2   0.0 162.5 108.5 108.8\n2      81.5 162.5   0.0  83.8 102.0\n3     154.1 108.5  83.8   0.0 118.2\n4      92.1 108.8 102.0 118.2   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,3,4,2,0 with total length: 604\nRoute: 0,1,4,3,2,0 with total length: 587\nRoute: 0,4,1,3,2,0 with total length: 475\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 475\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 475,
+      "solution": {
+        "path": [
+          0,
+          2,
+          3,
+          1,
+          4,
+          0
+        ],
+        "distance": 475
+      }
+    },
+    {
+      "problem_id": "tsp_5_24",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          2,
+          71
+        ],
+        "1": [
+          66,
+          -5
+        ],
+        "2": [
+          12,
+          32
+        ],
+        "3": [
+          15,
+          -70
+        ],
+        "4": [
+          -37,
+          -43
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (2, 71)\nNode: 1: (66, -5)\nNode: 2: (12, 32)\nNode: 3: (15, -70)\nNode: 4: (-37, -43)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  99.4  40.3 141.6 120.5\n1      99.4   0.0  65.5  82.6 109.8\n2      40.3  65.5   0.0 102.0  89.6\n3     141.6  82.6 102.0   0.0  58.6\n4     120.5 109.8  89.6  58.6   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,4,2,3,0 with total length: 542\nRoute: 0,1,2,3,4,0 with total length: 446\nRoute: 0,2,3,4,1,0 with total length: 410\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 410\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 410,
+      "solution": {
+        "path": [
+          0,
+          4,
+          3,
+          1,
+          2,
+          0
+        ],
+        "distance": 367
+      }
+    },
+    {
+      "problem_id": "tsp_5_25",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -84,
+          -14
+        ],
+        "1": [
+          -95,
+          50
+        ],
+        "2": [
+          41,
+          -42
+        ],
+        "3": [
+          50,
+          -44
+        ],
+        "4": [
+          -99,
+          -82
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-84, -14)\nNode: 1: (-95, 50)\nNode: 2: (41, -42)\nNode: 3: (50, -44)\nNode: 4: (-99, -82)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  64.9 128.1 137.3  69.6\n1      64.9   0.0 164.2 172.8 132.1\n2     128.1 164.2   0.0   9.2 145.6\n3     137.3 172.8   9.2   0.0 153.8\n4      69.6 132.1 145.6 153.8   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,4,2,1,0 with total length: 666\nRoute: 0,4,1,3,2,0 with total length: 512\nRoute: 0,2,3,4,1,0 with total length: 488\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 488\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 488,
+      "solution": {
+        "path": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          0
+        ],
+        "distance": 462
+      }
+    },
+    {
+      "problem_id": "tsp_5_27",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -29,
+          71
+        ],
+        "1": [
+          24,
+          -46
+        ],
+        "2": [
+          38,
+          -67
+        ],
+        "3": [
+          85,
+          46
+        ],
+        "4": [
+          47,
+          21
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-29, 71)\nNode: 1: (24, -46)\nNode: 2: (38, -67)\nNode: 3: (85, 46)\nNode: 4: (47, 21)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 128.4 153.4 116.7  91.0\n1     128.4   0.0  25.2 110.4  70.8\n2     153.4  25.2   0.0 122.4  88.5\n3     116.7 110.4 122.4   0.0  45.5\n4      91.0  70.8  88.5  45.5   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,2,4,1,3,0 with total length: 540\nRoute: 0,4,3,1,2,0 with total length: 425\nRoute: 0,1,2,4,3,0 with total length: 404\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 404\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 404,
+      "solution": {
+        "path": [
+          0,
+          1,
+          2,
+          4,
+          3,
+          0
+        ],
+        "distance": 404
+      }
+    },
+    {
+      "problem_id": "tsp_5_28",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -38,
+          100
+        ],
+        "1": [
+          21,
+          4
+        ],
+        "2": [
+          -52,
+          -76
+        ],
+        "3": [
+          -76,
+          68
+        ],
+        "4": [
+          10,
+          -10
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-38, 100)\nNode: 1: (21, 4)\nNode: 2: (-52, -76)\nNode: 3: (-76, 68)\nNode: 4: (10, -10)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 112.7 176.6  49.7 120.0\n1     112.7   0.0 108.3 116.2  17.8\n2     176.6 108.3   0.0 146.0  90.6\n3      49.7 116.2 146.0   0.0 116.1\n4     120.0  17.8  90.6 116.1   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,4,1,3,2,0 with total length: 577\nRoute: 0,2,3,1,4,0 with total length: 577\nRoute: 0,3,2,1,4,0 with total length: 442\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 442\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 442,
+      "solution": {
+        "path": [
+          0,
+          3,
+          2,
+          4,
+          1,
+          0
+        ],
+        "distance": 417
+      }
+    },
+    {
+      "problem_id": "tsp_5_29",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          8,
+          5
+        ],
+        "1": [
+          19,
+          86
+        ],
+        "2": [
+          -87,
+          72
+        ],
+        "3": [
+          67,
+          65
+        ],
+        "4": [
+          -75,
+          -85
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (8, 5)\nNode: 1: (19, 86)\nNode: 2: (-87, 72)\nNode: 3: (67, 65)\nNode: 4: (-75, -85)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  81.7 116.2  84.1 122.4\n1      81.7   0.0 106.9  52.4 195.1\n2     116.2 106.9   0.0 154.2 157.5\n3      84.1  52.4 154.2   0.0 206.6\n4     122.4 195.1 157.5 206.6   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,4,2,3,0 with total length: 673\nRoute: 0,2,1,3,4,0 with total length: 605\nRoute: 0,4,2,3,1,0 with total length: 568\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 568\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 568,
+      "solution": {
+        "path": [
+          0,
+          3,
+          1,
+          2,
+          4,
+          0
+        ],
+        "distance": 523
+      }
+    },
+    {
+      "problem_id": "tsp_5_31",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          8,
+          -54
+        ],
+        "1": [
+          -29,
+          18
+        ],
+        "2": [
+          -37,
+          -81
+        ],
+        "3": [
+          13,
+          40
+        ],
+        "4": [
+          -75,
+          -88
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (8, -54)\nNode: 1: (-29, 18)\nNode: 2: (-37, -81)\nNode: 3: (13, 40)\nNode: 4: (-75, -88)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  81.0  52.5  94.1  89.7\n1      81.0   0.0  99.3  47.4 115.6\n2      52.5  99.3   0.0 130.9  38.6\n3      94.1  47.4 130.9   0.0 155.3\n4      89.7 115.6  38.6 155.3   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,4,1,2,0 with total length: 517\nRoute: 0,3,2,4,1,0 with total length: 460\nRoute: 0,2,4,1,3,0 with total length: 348\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 348\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 348,
+      "solution": {
+        "path": [
+          0,
+          2,
+          4,
+          1,
+          3,
+          0
+        ],
+        "distance": 348
+      }
+    },
+    {
+      "problem_id": "tsp_5_35",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -61,
+          -52
+        ],
+        "1": [
+          -25,
+          -45
+        ],
+        "2": [
+          -86,
+          48
+        ],
+        "3": [
+          88,
+          38
+        ],
+        "4": [
+          -85,
+          91
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-61, -52)\nNode: 1: (-25, -45)\nNode: 2: (-86, 48)\nNode: 3: (88, 38)\nNode: 4: (-85, 91)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  36.7 103.1 174.1 145.0\n1      36.7   0.0 111.2 140.2 148.6\n2     103.1 111.2   0.0 174.3  43.0\n3     174.1 140.2 174.3   0.0 180.9\n4     145.0 148.6  43.0 180.9   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,4,1,2,3,0 with total length: 753\nRoute: 0,3,1,4,2,0 with total length: 609\nRoute: 0,3,4,2,1,0 with total length: 546\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 546\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 546,
+      "solution": {
+        "path": [
+          0,
+          2,
+          4,
+          3,
+          1,
+          0
+        ],
+        "distance": 504
+      }
+    },
+    {
+      "problem_id": "tsp_5_38",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -37,
+          48
+        ],
+        "1": [
+          52,
+          -90
+        ],
+        "2": [
+          58,
+          -80
+        ],
+        "3": [
+          7,
+          68
+        ],
+        "4": [
+          49,
+          44
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-37, 48)\nNode: 1: (52, -90)\nNode: 2: (58, -80)\nNode: 3: (7, 68)\nNode: 4: (49, 44)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 164.2 159.4  48.3  86.1\n1     164.2   0.0  11.7 164.3 134.0\n2     159.4  11.7   0.0 156.5 124.3\n3      48.3 164.3 156.5   0.0  48.4\n4      86.1 134.0 124.3  48.4   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,3,2,4,0 with total length: 695\nRoute: 0,2,3,4,1,0 with total length: 663\nRoute: 0,2,4,3,1,0 with total length: 661\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 661\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 661,
+      "solution": {
+        "path": [
+          0,
+          1,
+          2,
+          4,
+          3,
+          0
+        ],
+        "distance": 397
+      }
+    },
+    {
+      "problem_id": "tsp_5_43",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          67,
+          35
+        ],
+        "1": [
+          -98,
+          70
+        ],
+        "2": [
+          41,
+          -24
+        ],
+        "3": [
+          69,
+          -74
+        ],
+        "4": [
+          -66,
+          -33
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (67, 35)\nNode: 1: (-98, 70)\nNode: 2: (41, -24)\nNode: 3: (69, -74)\nNode: 4: (-66, -33)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 168.7  64.5 109.0 149.4\n1     168.7   0.0 167.8 220.5 107.9\n2      64.5 167.8   0.0  57.3 107.4\n3     109.0 220.5  57.3   0.0 141.1\n4     149.4 107.9 107.4 141.1   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,3,2,4,0 with total length: 703\nRoute: 0,3,1,4,2,0 with total length: 609\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 609\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 609,
+      "solution": {
+        "path": [
+          0,
+          1,
+          4,
+          3,
+          2,
+          0
+        ],
+        "distance": 539
+      }
+    },
+    {
+      "problem_id": "tsp_5_46",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          62,
+          8
+        ],
+        "1": [
+          -30,
+          -89
+        ],
+        "2": [
+          -100,
+          -15
+        ],
+        "3": [
+          97,
+          -67
+        ],
+        "4": [
+          63,
+          -33
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (62, 8)\nNode: 1: (-30, -89)\nNode: 2: (-100, -15)\nNode: 3: (97, -67)\nNode: 4: (63, -33)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 133.7 163.6  82.8  41.0\n1     133.7   0.0 101.9 128.9 108.6\n2     163.6 101.9   0.0 203.7 164.0\n3      82.8 128.9 203.7   0.0  48.1\n4      41.0 108.6 164.0  48.1   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,4,2,3,0 with total length: 693\nRoute: 0,3,4,1,2,0 with total length: 505\nRoute: 0,4,3,1,2,0 with total length: 483\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 483\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 483,
+      "solution": {
+        "path": [
+          0,
+          2,
+          1,
+          3,
+          4,
+          0
+        ],
+        "distance": 483
+      }
+    },
+    {
+      "problem_id": "tsp_5_51",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          5,
+          -94
+        ],
+        "1": [
+          -55,
+          88
+        ],
+        "2": [
+          -15,
+          100
+        ],
+        "3": [
+          5,
+          71
+        ],
+        "4": [
+          88,
+          -37
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (5, -94)\nNode: 1: (-55, 88)\nNode: 2: (-15, 100)\nNode: 3: (5, 71)\nNode: 4: (88, -37)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 191.6 195.0 165.0 100.7\n1     191.6   0.0  41.8  62.4 189.9\n2     195.0  41.8   0.0  35.2 171.4\n3     165.0  62.4  35.2   0.0 136.2\n4     100.7 189.9 171.4 136.2   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,2,4,1,3,0 with total length: 784\nRoute: 0,2,4,3,1,0 with total length: 757\nRoute: 0,2,1,3,4,0 with total length: 536\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 536\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 536,
+      "solution": {
+        "path": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          0
+        ],
+        "distance": 506
+      }
+    },
+    {
+      "problem_id": "tsp_5_53",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -11,
+          -22
+        ],
+        "1": [
+          -42,
+          -43
+        ],
+        "2": [
+          -94,
+          68
+        ],
+        "3": [
+          -51,
+          2
+        ],
+        "4": [
+          -16,
+          -29
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-11, -22)\nNode: 1: (-42, -43)\nNode: 2: (-94, 68)\nNode: 3: (-51, 2)\nNode: 4: (-16, -29)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  37.4 122.4  46.6   8.6\n1      37.4   0.0 122.6  45.9  29.5\n2     122.4 122.6   0.0  78.8 124.5\n3      46.6  45.9  78.8   0.0  46.8\n4       8.6  29.5 124.5  46.8   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,1,4,2,0 with total length: 369\nRoute: 0,4,3,1,2,0 with total length: 346\nRoute: 0,4,1,3,2,0 with total length: 285\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 285\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 285,
+      "solution": {
+        "path": [
+          0,
+          2,
+          3,
+          1,
+          4,
+          0
+        ],
+        "distance": 285
+      }
+    },
+    {
+      "problem_id": "tsp_5_54",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -83,
+          97
+        ],
+        "1": [
+          -29,
+          -11
+        ],
+        "2": [
+          64,
+          30
+        ],
+        "3": [
+          2,
+          73
+        ],
+        "4": [
+          37,
+          -16
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-83, 97)\nNode: 1: (-29, -11)\nNode: 2: (64, 30)\nNode: 3: (2, 73)\nNode: 4: (37, -16)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 120.7 161.5  88.3 164.8\n1     120.7   0.0 101.6  89.5  66.2\n2     161.5 101.6   0.0  75.5  53.3\n3      88.3  89.5  75.5   0.0  95.6\n4     164.8  66.2  53.3  95.6   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,4,3,2,1,0 with total length: 558\nRoute: 0,1,3,4,2,0 with total length: 521\nRoute: 0,4,2,1,3,0 with total length: 498\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 498\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 498,
+      "solution": {
+        "path": [
+          0,
+          1,
+          4,
+          2,
+          3,
+          0
+        ],
+        "distance": 404
+      }
+    },
+    {
+      "problem_id": "tsp_5_57",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -35,
+          -89
+        ],
+        "1": [
+          81,
+          11
+        ],
+        "2": [
+          -100,
+          33
+        ],
+        "3": [
+          37,
+          75
+        ],
+        "4": [
+          84,
+          89
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-35, -89)\nNode: 1: (81, 11)\nNode: 2: (-100, 33)\nNode: 3: (37, 75)\nNode: 4: (84, 89)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 153.2 138.2 179.1 214.1\n1     153.2   0.0 182.3  77.7  78.1\n2     138.2 182.3   0.0 143.3 192.3\n3     179.1  77.7 143.3   0.0  49.0\n4     214.1  78.1 192.3  49.0   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,1,2,4,0 with total length: 846\nRoute: 0,3,4,2,1,0 with total length: 756\nRoute: 0,1,4,3,2,0 with total length: 562\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 562\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 562,
+      "solution": {
+        "path": [
+          0,
+          1,
+          4,
+          3,
+          2,
+          0
+        ],
+        "distance": 562
+      }
+    },
+    {
+      "problem_id": "tsp_5_58",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          88,
+          71
+        ],
+        "1": [
+          -50,
+          -7
+        ],
+        "2": [
+          10,
+          -83
+        ],
+        "3": [
+          70,
+          -16
+        ],
+        "4": [
+          59,
+          -20
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (88, 71)\nNode: 1: (-50, -7)\nNode: 2: (10, -83)\nNode: 3: (70, -16)\nNode: 4: (59, -20)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 158.5 172.6  88.8  95.5\n1     158.5   0.0  96.8 120.3 109.8\n2     172.6  96.8   0.0  89.9  79.8\n3      88.8 120.3  89.9   0.0  11.7\n4      95.5 109.8  79.8  11.7   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,2,4,3,1,0 with total length: 543\nRoute: 0,3,2,4,1,0 with total length: 527\nRoute: 0,4,2,1,3,0 with total length: 481\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 481\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 481,
+      "solution": {
+        "path": [
+          0,
+          1,
+          2,
+          4,
+          3,
+          0
+        ],
+        "distance": 436
+      }
+    },
+    {
+      "problem_id": "tsp_5_62",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          10,
+          48
+        ],
+        "1": [
+          55,
+          67
+        ],
+        "2": [
+          -18,
+          19
+        ],
+        "3": [
+          13,
+          13
+        ],
+        "4": [
+          72,
+          -46
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (10, 48)\nNode: 1: (55, 67)\nNode: 2: (-18, 19)\nNode: 3: (13, 13)\nNode: 4: (72, -46)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  48.8  40.3  35.1 112.6\n1      48.8   0.0  87.4  68.4 114.3\n2      40.3  87.4   0.0  31.6 111.0\n3      35.1  68.4  31.6   0.0  83.4\n4     112.6 114.3 111.0  83.4   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,4,2,1,3,0 with total length: 415\nRoute: 0,2,1,4,3,0 with total length: 361\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 361\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 361,
+      "solution": {
+        "path": [
+          0,
+          1,
+          4,
+          3,
+          2,
+          0
+        ],
+        "distance": 318
+      }
+    },
+    {
+      "problem_id": "tsp_5_64",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          58,
+          -15
+        ],
+        "1": [
+          -77,
+          92
+        ],
+        "2": [
+          -40,
+          72
+        ],
+        "3": [
+          -21,
+          -43
+        ],
+        "4": [
+          -50,
+          -63
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (58, -15)\nNode: 1: (-77, 92)\nNode: 2: (-40, 72)\nNode: 3: (-21, -43)\nNode: 4: (-50, -63)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 172.3 131.0  83.8 118.2\n1     172.3   0.0  42.1 146.2 157.3\n2     131.0  42.1   0.0 116.6 135.4\n3      83.8 146.2 116.6   0.0  35.2\n4     118.2 157.3 135.4  35.2   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,1,4,2,0 with total length: 654\nRoute: 0,2,4,3,1,0 with total length: 620\nRoute: 0,4,1,2,3,0 with total length: 518\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 518\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 518,
+      "solution": {
+        "path": [
+          0,
+          2,
+          1,
+          4,
+          3,
+          0
+        ],
+        "distance": 449
+      }
+    },
+    {
+      "problem_id": "tsp_5_67",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          76,
+          -99
+        ],
+        "1": [
+          92,
+          97
+        ],
+        "2": [
+          -73,
+          99
+        ],
+        "3": [
+          8,
+          -44
+        ],
+        "4": [
+          -55,
+          78
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (76, -99)\nNode: 1: (92, 97)\nNode: 2: (-73, 99)\nNode: 3: (8, -44)\nNode: 4: (-55, 78)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 196.7 247.8  87.5 220.2\n1     196.7   0.0 165.0 164.1 148.2\n2     247.8 165.0   0.0 164.3  27.7\n3      87.5 164.1 164.3   0.0 137.3\n4     220.2 148.2  27.7 137.3   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,4,2,3,1,0 with total length: 773\nRoute: 0,4,2,1,3,0 with total length: 664\nRoute: 0,3,1,2,4,0 with total length: 664\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 664\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 664,
+      "solution": {
+        "path": [
+          0,
+          1,
+          2,
+          4,
+          3,
+          0
+        ],
+        "distance": 614
+      }
+    },
+    {
+      "problem_id": "tsp_5_68",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          32,
+          18
+        ],
+        "1": [
+          -88,
+          42
+        ],
+        "2": [
+          -37,
+          -69
+        ],
+        "3": [
+          16,
+          -66
+        ],
+        "4": [
+          18,
+          70
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (32, 18)\nNode: 1: (-88, 42)\nNode: 2: (-37, -69)\nNode: 3: (16, -66)\nNode: 4: (18, 70)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 122.4 111.0  85.5  53.9\n1     122.4   0.0 122.2 149.9 109.6\n2     111.0 122.2   0.0  53.1 149.5\n3      85.5 149.9  53.1   0.0 136.0\n4      53.9 109.6 149.5 136.0   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,2,4,1,3,0 with total length: 606\nRoute: 0,4,2,1,3,0 with total length: 561\nRoute: 0,1,4,3,2,0 with total length: 532\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 532\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 532,
+      "solution": {
+        "path": [
+          0,
+          3,
+          2,
+          1,
+          4,
+          0
+        ],
+        "distance": 424
+      }
+    },
+    {
+      "problem_id": "tsp_5_69",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          35,
+          43
+        ],
+        "1": [
+          52,
+          -19
+        ],
+        "2": [
+          93,
+          13
+        ],
+        "3": [
+          56,
+          84
+        ],
+        "4": [
+          29,
+          9
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (35, 43)\nNode: 1: (52, -19)\nNode: 2: (93, 13)\nNode: 3: (56, 84)\nNode: 4: (29, 9)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  64.3  65.3  46.1  34.5\n1      64.3   0.0  52.0 103.1  36.2\n2      65.3  52.0   0.0  80.1  64.1\n3      46.1 103.1  80.1   0.0  79.7\n4      34.5  36.2  64.1  79.7   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,2,1,3,4,0 with total length: 335\nRoute: 0,2,3,4,1,0 with total length: 326\nRoute: 0,3,4,2,1,0 with total length: 306\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 306\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 306,
+      "solution": {
+        "path": [
+          0,
+          3,
+          2,
+          1,
+          4,
+          0
+        ],
+        "distance": 249
+      }
+    },
+    {
+      "problem_id": "tsp_5_71",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -30,
+          96
+        ],
+        "1": [
+          99,
+          33
+        ],
+        "2": [
+          24,
+          60
+        ],
+        "3": [
+          -39,
+          -30
+        ],
+        "4": [
+          12,
+          -81
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-30, 96)\nNode: 1: (99, 33)\nNode: 2: (24, 60)\nNode: 3: (-39, -30)\nNode: 4: (12, -81)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 143.6  64.9 126.3 181.9\n1     143.6   0.0  79.7 151.7 143.4\n2      64.9  79.7   0.0 109.9 141.5\n3     126.3 151.7 109.9   0.0  72.1\n4     181.9 143.4 141.5  72.1   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,2,3,1,4,0 with total length: 652\nRoute: 0,4,1,2,3,0 with total length: 641\nRoute: 0,2,4,1,3,0 with total length: 628\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 628\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 628,
+      "solution": {
+        "path": [
+          0,
+          3,
+          4,
+          1,
+          2,
+          0
+        ],
+        "distance": 486
+      }
+    },
+    {
+      "problem_id": "tsp_5_75",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -95,
+          95
+        ],
+        "1": [
+          47,
+          -3
+        ],
+        "2": [
+          22,
+          -99
+        ],
+        "3": [
+          -10,
+          -24
+        ],
+        "4": [
+          92,
+          -1
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-95, 95)\nNode: 1: (47, -3)\nNode: 2: (22, -99)\nNode: 3: (-10, -24)\nNode: 4: (92, -1)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 172.5 226.6 146.2 210.2\n1     172.5   0.0  99.2  60.7  45.0\n2     226.6  99.2   0.0  81.5 120.4\n3     146.2  60.7  81.5   0.0 104.6\n4     210.2  45.0 120.4 104.6   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,4,3,1,2,0 with total length: 701\nRoute: 0,4,3,2,1,0 with total length: 668\nRoute: 0,3,1,4,2,0 with total length: 599\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 599\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 599,
+      "solution": {
+        "path": [
+          0,
+          1,
+          4,
+          2,
+          3,
+          0
+        ],
+        "distance": 566
+      }
+    },
+    {
+      "problem_id": "tsp_5_77",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          11,
+          24
+        ],
+        "1": [
+          -93,
+          -1
+        ],
+        "2": [
+          -14,
+          71
+        ],
+        "3": [
+          73,
+          3
+        ],
+        "4": [
+          85,
+          -58
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (11, 24)\nNode: 1: (-93, -1)\nNode: 2: (-14, 71)\nNode: 3: (73, 3)\nNode: 4: (85, -58)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 107.0  53.2  65.5 110.5\n1     107.0   0.0 106.9 166.0 186.9\n2      53.2 106.9   0.0 110.4 162.6\n3      65.5 166.0 110.4   0.0  62.2\n4     110.5 186.9 162.6  62.2   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,2,4,1,3,0 with total length: 634\nRoute: 0,1,4,3,2,0 with total length: 520\nRoute: 0,2,1,3,4,0 with total length: 499\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 499\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 499,
+      "solution": {
+        "path": [
+          0,
+          2,
+          1,
+          4,
+          3,
+          0
+        ],
+        "distance": 475
+      }
+    },
+    {
+      "problem_id": "tsp_5_79",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -79,
+          64
+        ],
+        "1": [
+          9,
+          -66
+        ],
+        "2": [
+          18,
+          -54
+        ],
+        "3": [
+          -88,
+          -34
+        ],
+        "4": [
+          -3,
+          -17
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-79, 64)\nNode: 1: (9, -66)\nNode: 2: (18, -54)\nNode: 3: (-88, -34)\nNode: 4: (-3, -17)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 157.0 152.8  98.4 111.1\n1     157.0   0.0  15.0 102.1  50.4\n2     152.8  15.0   0.0 107.9  42.5\n3      98.4 102.1 107.9   0.0  86.7\n4     111.1  50.4  42.5  86.7   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,4,1,2,0 with total length: 403\nRoute: 0,3,2,1,4,0 with total length: 383\nRoute: 0,4,1,2,3,0 with total length: 383\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 383\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 383,
+      "solution": {
+        "path": [
+          0,
+          3,
+          1,
+          2,
+          4,
+          0
+        ],
+        "distance": 369
+      }
+    },
+    {
+      "problem_id": "tsp_5_81",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -80,
+          20
+        ],
+        "1": [
+          -96,
+          91
+        ],
+        "2": [
+          38,
+          -87
+        ],
+        "3": [
+          -11,
+          -43
+        ],
+        "4": [
+          66,
+          -83
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-80, 20)\nNode: 1: (-96, 91)\nNode: 2: (38, -87)\nNode: 3: (-11, -43)\nNode: 4: (66, -83)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  72.8 159.3  93.4 178.7\n1      72.8   0.0 222.8 158.7 237.7\n2     159.3 222.8   0.0  65.9  28.3\n3      93.4 158.7  65.9   0.0  86.8\n4     178.7 237.7  28.3  86.8   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,4,3,1,2,0 with total length: 806\nRoute: 0,4,3,2,1,0 with total length: 627\nRoute: 0,1,3,2,4,0 with total length: 504\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 504\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 504,
+      "solution": {
+        "path": [
+          0,
+          1,
+          4,
+          2,
+          3,
+          0
+        ],
+        "distance": 498
+      }
+    },
+    {
+      "problem_id": "tsp_5_82",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          99,
+          66
+        ],
+        "1": [
+          -90,
+          93
+        ],
+        "2": [
+          -93,
+          -37
+        ],
+        "3": [
+          -49,
+          -95
+        ],
+        "4": [
+          59,
+          -61
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (99, 66)\nNode: 1: (-90, 93)\nNode: 2: (-93, -37)\nNode: 3: (-49, -95)\nNode: 4: (59, -61)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 190.9 217.9 218.7 133.2\n1     190.9   0.0 130.0 192.4 214.3\n2     217.9 130.0   0.0  72.8 153.9\n3     218.7 192.4  72.8   0.0 113.2\n4     133.2 214.3 153.9 113.2   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,2,4,1,0 with total length: 851\nRoute: 0,1,4,3,2,0 with total length: 809\nRoute: 0,1,2,3,4,0 with total length: 640\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 640\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 640,
+      "solution": {
+        "path": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          0
+        ],
+        "distance": 640
+      }
+    },
+    {
+      "problem_id": "tsp_5_84",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          96,
+          -6
+        ],
+        "1": [
+          -58,
+          55
+        ],
+        "2": [
+          55,
+          91
+        ],
+        "3": [
+          83,
+          -71
+        ],
+        "4": [
+          99,
+          -59
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (96, -6)\nNode: 1: (-58, 55)\nNode: 2: (55, 91)\nNode: 3: (83, -71)\nNode: 4: (99, -59)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 165.6 105.3  66.3  53.1\n1     165.6   0.0 118.6 189.1 194.0\n2     105.3 118.6   0.0 164.4 156.3\n3      66.3 189.1 164.4   0.0  20.0\n4      53.1 194.0 156.3  20.0   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,2,4,1,0 with total length: 747\nRoute: 0,1,2,4,3,0 with total length: 527\nRoute: 0,2,1,3,4,0 with total length: 486\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 486\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 486,
+      "solution": {
+        "path": [
+          0,
+          2,
+          1,
+          3,
+          4,
+          0
+        ],
+        "distance": 486
+      }
+    },
+    {
+      "problem_id": "tsp_5_86",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -50,
+          -81
+        ],
+        "1": [
+          51,
+          76
+        ],
+        "2": [
+          60,
+          -38
+        ],
+        "3": [
+          -74,
+          78
+        ],
+        "4": [
+          97,
+          -23
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-50, -81)\nNode: 1: (51, 76)\nNode: 2: (60, -38)\nNode: 3: (-74, 78)\nNode: 4: (97, -23)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 186.7 118.1 160.8 158.0\n1     186.7   0.0 114.4 125.0 109.2\n2     118.1 114.4   0.0 177.2  39.9\n3     160.8 125.0 177.2   0.0 198.6\n4     158.0 109.2  39.9 198.6   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,2,1,3,4,0 with total length: 714\nRoute: 0,2,4,3,1,0 with total length: 668\nRoute: 0,4,2,1,3,0 with total length: 598\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 598\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 598,
+      "solution": {
+        "path": [
+          0,
+          2,
+          4,
+          1,
+          3,
+          0
+        ],
+        "distance": 553
+      }
+    },
+    {
+      "problem_id": "tsp_5_88",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -6,
+          -83
+        ],
+        "1": [
+          29,
+          65
+        ],
+        "2": [
+          -13,
+          -97
+        ],
+        "3": [
+          7,
+          25
+        ],
+        "4": [
+          -73,
+          10
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-6, -83)\nNode: 1: (29, 65)\nNode: 2: (-13, -97)\nNode: 3: (7, 25)\nNode: 4: (-73, 10)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 152.1  15.7 108.8 114.6\n1     152.1   0.0 167.4  45.7 115.9\n2      15.7 167.4   0.0 123.6 122.7\n3     108.8  45.7 123.6   0.0  81.4\n4     114.6 115.9 122.7  81.4   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,2,4,3,0 with total length: 632\nRoute: 0,4,1,2,3,0 with total length: 630\nRoute: 0,4,2,3,1,0 with total length: 559\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 559\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 559,
+      "solution": {
+        "path": [
+          0,
+          2,
+          4,
+          1,
+          3,
+          0
+        ],
+        "distance": 409
+      }
+    },
+    {
+      "problem_id": "tsp_5_89",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -8,
+          62
+        ],
+        "1": [
+          17,
+          81
+        ],
+        "2": [
+          -61,
+          11
+        ],
+        "3": [
+          -55,
+          87
+        ],
+        "4": [
+          33,
+          66
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-8, 62)\nNode: 1: (17, 81)\nNode: 2: (-61, 11)\nNode: 3: (-55, 87)\nNode: 4: (33, 66)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  31.4  73.6  53.2  41.2\n1      31.4   0.0 104.8  72.2  21.9\n2      73.6 104.8   0.0  76.2 108.9\n3      53.2  72.2  76.2   0.0  90.5\n4      41.2  21.9 108.9  90.5   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,2,4,3,0 with total length: 389\nRoute: 0,3,4,1,2,0 with total length: 344\nRoute: 0,1,4,2,3,0 with total length: 292\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 292\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 292,
+      "solution": {
+        "path": [
+          0,
+          2,
+          3,
+          1,
+          4,
+          0
+        ],
+        "distance": 285
+      }
+    },
+    {
+      "problem_id": "tsp_5_90",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -31,
+          57
+        ],
+        "1": [
+          37,
+          98
+        ],
+        "2": [
+          23,
+          19
+        ],
+        "3": [
+          11,
+          87
+        ],
+        "4": [
+          51,
+          -32
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-31, 57)\nNode: 1: (37, 98)\nNode: 2: (23, 19)\nNode: 3: (11, 87)\nNode: 4: (51, -32)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  79.4  66.0  51.6 121.0\n1      79.4   0.0  80.2  28.2 130.8\n2      66.0  80.2   0.0  69.1  58.2\n3      51.6  28.2  69.1   0.0 125.5\n4     121.0 130.8  58.2 125.5   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,4,1,2,3,0 with total length: 453\nRoute: 0,2,1,3,4,0 with total length: 421\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 421\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 421,
+      "solution": {
+        "path": [
+          0,
+          2,
+          4,
+          1,
+          3,
+          0
+        ],
+        "distance": 335
+      }
+    },
+    {
+      "problem_id": "tsp_5_93",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -34,
+          -13
+        ],
+        "1": [
+          -29,
+          52
+        ],
+        "2": [
+          79,
+          -30
+        ],
+        "3": [
+          42,
+          -98
+        ],
+        "4": [
+          32,
+          -52
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-34, -13)\nNode: 1: (-29, 52)\nNode: 2: (79, -30)\nNode: 3: (42, -98)\nNode: 4: (32, -52)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  65.2 114.3 114.0  76.7\n1      65.2   0.0 135.6 166.0 120.6\n2     114.3 135.6   0.0  77.4  51.9\n3     114.0 166.0  77.4   0.0  47.1\n4      76.7 120.6  51.9  47.1   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,3,2,4,0 with total length: 437\nRoute: 0,1,4,3,2,0 with total length: 425\nRoute: 0,1,2,3,4,0 with total length: 402\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 402\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 402,
+      "solution": {
+        "path": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          0
+        ],
+        "distance": 402
+      }
+    },
+    {
+      "problem_id": "tsp_5_94",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -79,
+          -39
+        ],
+        "1": [
+          84,
+          4
+        ],
+        "2": [
+          25,
+          42
+        ],
+        "3": [
+          94,
+          -39
+        ],
+        "4": [
+          76,
+          21
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-79, -39)\nNode: 1: (84, 4)\nNode: 2: (25, 42)\nNode: 3: (94, -39)\nNode: 4: (76, 21)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 168.6 131.8 173.0 166.2\n1     168.6   0.0  70.2  44.1  18.8\n2     131.8  70.2   0.0 106.4  55.2\n3     173.0  44.1 106.4   0.0  62.6\n4     166.2  18.8  55.2  62.6   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,1,2,4,3,0 with total length: 530\nRoute: 0,3,2,4,1,0 with total length: 522\nRoute: 0,4,1,3,2,0 with total length: 467\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 467\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 467,
+      "solution": {
+        "path": [
+          0,
+          2,
+          4,
+          1,
+          3,
+          0
+        ],
+        "distance": 423
+      }
+    },
+    {
+      "problem_id": "tsp_5_95",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          65,
+          82
+        ],
+        "1": [
+          25,
+          14
+        ],
+        "2": [
+          -96,
+          -77
+        ],
+        "3": [
+          -25,
+          -44
+        ],
+        "4": [
+          3,
+          77
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (65, 82)\nNode: 1: (25, 14)\nNode: 2: (-96, -77)\nNode: 3: (-25, -44)\nNode: 4: (3, 77)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0  78.9 226.3 154.8  62.2\n1      78.9   0.0 151.4  76.6  66.7\n2     226.3 151.4   0.0  78.3 183.1\n3     154.8  76.6  78.3   0.0 124.2\n4      62.2  66.7 183.1 124.2   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,4,3,1,2,0 with total length: 641\nRoute: 0,2,1,3,4,0 with total length: 641\nRoute: 0,2,3,4,1,0 with total length: 574\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 574\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 574,
+      "solution": {
+        "path": [
+          0,
+          1,
+          3,
+          2,
+          4,
+          0
+        ],
+        "distance": 479
+      }
+    },
+    {
+      "problem_id": "tsp_5_97",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          90,
+          40
+        ],
+        "1": [
+          -16,
+          -10
+        ],
+        "2": [
+          79,
+          16
+        ],
+        "3": [
+          -31,
+          -22
+        ],
+        "4": [
+          -36,
+          -41
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (90, 40)\nNode: 1: (-16, -10)\nNode: 2: (79, 16)\nNode: 3: (-31, -22)\nNode: 4: (-36, -41)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 117.2  26.4 136.0 149.8\n1     117.2   0.0  98.5  19.2  36.9\n2      26.4  98.5   0.0 116.4 128.4\n3     136.0  19.2 116.4   0.0  19.6\n4     149.8  36.9 128.4  19.6   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,1,2,4,0 with total length: 532\nRoute: 0,1,3,2,4,0 with total length: 531\nRoute: 0,4,3,1,2,0 with total length: 314\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 314\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 314,
+      "solution": {
+        "path": [
+          0,
+          1,
+          3,
+          4,
+          2,
+          0
+        ],
+        "distance": 311
+      }
+    },
+    {
+      "problem_id": "tsp_5_99",
+      "size": 5,
+      "coordinates": {
+        "0": [
+          -51,
+          -45
+        ],
+        "1": [
+          89,
+          23
+        ],
+        "2": [
+          -30,
+          85
+        ],
+        "3": [
+          50,
+          94
+        ],
+        "4": [
+          34,
+          52
+        ]
+      },
+      "prompt": "You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.\n\n## Problem Setup\nGiven 5 nodes with coordinates:\nNode: 0: (-51, -45)\nNode: 1: (89, 23)\nNode: 2: (-30, 85)\nNode: 3: (50, 94)\nNode: 4: (34, 52)\n\n\n## Distance Matrix\nThe matrix below shows the distance between each pair of nodes:\n           0     1     2     3     4\n0       0.0 155.6 131.7 171.8 129.0\n1     155.6   0.0 134.2  81.0  62.2\n2     131.7 134.2   0.0  80.5  72.0\n3     171.8  81.0  80.5   0.0  44.9\n4     129.0  62.2  72.0  44.9   0.0 \n\n\n## Previous Solutions\nThese routes have already been tried:\nRoute: 0,3,4,2,1,0 with total length: 579\nRoute: 0,2,4,3,1,0 with total length: 485\nRoute: 0,1,4,3,2,0 with total length: 475\n\n\n## Requirements\n- Start and end at node 0\n- Visit each node exactly once before returning to node 0\n- Provide a route with a total distance lower than 475\n- Your solution must be different from the previous routes\n\n## Output Format\nThink through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:\n<reasoning>\nreasoning process\n</reasoning>\n<trace>\n0,X,X,X,X,X,X,X,X,X,0\n</trace>\n",
+      "reference_distance": 475,
+      "solution": {
+        "path": [
+          0,
+          2,
+          3,
+          4,
+          1,
+          0
+        ],
+        "distance": 475
+      }
+    }
+  ]
+}
