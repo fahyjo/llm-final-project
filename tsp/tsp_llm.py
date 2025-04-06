@@ -3,9 +3,9 @@ import random
 from typing import Dict, List, Tuple, Any
 import numpy as np
 from tqdm import tqdm
-from tsp.tsp import calculate_tsp_distance, generate_tsp_distance_matrix
+from tsp import calculate_tsp_distance, generate_tsp_distance_matrix
 
-def load_tsp_dataset(filename: str) -> Dict:
+def load_tsp_problem_dataset(filename: str) -> Dict:
     """
     Load the TSP dataset from a JSON file.
     
@@ -127,122 +127,6 @@ def format_solution(path: List[int]) -> str:
     """
     return ",".join(map(str, path))
 
-def generate_llm_prompt_old(tsp: Dict[int, Tuple[int, int]], num_samples: int = 4) -> str:
-    """
-    Generate a prompt for an LLM to solve a TSP problem.
-    
-    Args:
-        tsp: Dictionary of node indices to coordinates
-        num_samples: Number of sample solutions to include in the prompt.
-        
-    Returns:
-        Formatted prompt string for the LLM.
-    """
-    # Create distance matrix
-    distance_matrix = generate_tsp_distance_matrix(tsp)
-    
-    # Generate sample solutions
-    samples = generate_sample_solutions(tsp, num_samples)
-    
-    # Start building the prompt
-    prompt = f"## Nodes\nYou are given a list of points with coordinates below:\n{format_coordinates(tsp)}.\n\n"
-    
-    # Add distance matrix
-    prompt += "## Distance Matrix\n" + format_distance_matrix(distance_matrix) + "\n\n"
-    
-    prompt += "Below are some previous traces and their lengths. The traces are arranged in descending order based on their lengths, where lower values are better.\n"
-    
-    # Add sample solutions
-    for sample in samples:
-        path_str = format_solution(sample["path"])
-        distance = round(sample["distance"])
-        prompt += f"{path_str} length: {distance}\n"
-    
-    # Add the request
-    prompt += "\nGive me a new trace that is different from all traces above, and has a length lower than any of the above.\n"
-    prompt += "The trace should traverse all nodes.\n"
-    prompt += "The path must start at 0 will return to 0 at the end of the trace, which is included in the distance."
-    
-    return prompt
-
-def generate_llm_prompt_new(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -> str:
-    """
-    Generate a prompt for an LLM to solve a TSP problem.
-    
-    Args:
-        tsp: Dictionary of node indices to coordinates
-        num_samples: Number of sample solutions to include in the prompt.
-        
-    Returns:
-        Formatted prompt string for the LLM.
-    """
-    # Create distance matrix
-    distance_matrix = generate_tsp_distance_matrix(tsp)
-    
-    # Generate sample solutions
-    samples = generate_sample_solutions(tsp, num_samples)
-    
-    # Start building the prompt
-    SYSTEMPROMPT = f"""You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.
-
-## Problem Setup
-Given {len(tsp)} nodes with coordinates:\n{format_coordinates(tsp)}\n\n"""
-    
-    # Add distance matrix
-    SYSTEMPROMPT += f"""
-## Distance Matrix
-The matrix below shows the distance between each pair of nodes:\n {format_distance_matrix(distance_matrix)} \n\n"""
-    examples = {}
-
-    # Add sample solutions
-    for i, sample in enumerate(samples):
-        path_str = format_solution(sample["path"])
-        distance = round(sample["distance"])
-
-        examples[path_str] = distance
-
-    SYSTEMPROMPT += """
-## Previous Solutions
-These routes have already been tried:"""
-    
-    SYSTEMPROMPT += ''.join(
-        f'\n\nRoute: {path} with total length: {distance}' 
-        for path, distance in examples.items()
-    )
-
-    USERPROMPT = '''## Your Task
-1. Analyze the distance matrix carefully
-2. Apply systematic optimization techniques such as:
-   - 2-opt or 3-opt local search
-   - Nearest neighbor with look-ahead
-   - Edge exchange optimization
-   - Consider node clustering patterns
-3. Calculate the total distance of your proposed route precisely
-
-## Requirements
-- Start and end at node 0
-- Visit each node exactly once before returning to node 0
-- Provide a route with a total distance lower than 1127
-- Your solution must be different from the previous routes
-
-## Output Format
-Think through your approach step by step, showing your calculations. Then provide your final solution in exactly this format:
-
-<trace>0,X,X,X,X,X,X,X,X,X,0</trace>'''
-
-    prompt  = [
-        {
-            "role": "system",
-            "content": SYSTEMPROMPT
-        },
-        {
-            'role': 'user',
-            'content': USERPROMPT
-        }
-    ]
-    
-    return prompt
-
 def generate_llm_prompt(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -> Tuple[str, int]:
     """
     Generate a prompt for an LLM to solve a TSP problem.
@@ -349,7 +233,7 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str, problems_per_
                 "reference_distance": reference_distance,
                 "solution": {
                     "path": problem["solution"]["path"],
-                    "distance": round(problem["solution"]["distance"])
+                    "distance": problem["solution"]["distance"]
                 }
             })
             
@@ -415,15 +299,15 @@ if __name__ == "__main__":
     np.random.seed(42)
     
     try:
-        # Load the TSP dataset
-        dataset = load_tsp_dataset("tsp_training_dataset.json")
-        print("TSP dataset loaded successfully.")
+        # Load the TSP problem dataset
+        dataset = load_tsp_problem_dataset("benchmark/tsp_benchmark_problem_dataset.json")
+        print("TSP problem dataset loaded successfully.")
 
         # Process dataset for compatibility with rest of script
         dataset = process_dataset(dataset)
         
         # Create LLM prompts dataset
-        create_prompt_dataset(dataset, "tsp_benchmark_prompt_dataset.json", problems_per_size=10)
+        create_prompt_dataset(dataset, "benchmark/tsp_benchmark_dataset.json", problems_per_size=50)
         
         
     except FileNotFoundError:
