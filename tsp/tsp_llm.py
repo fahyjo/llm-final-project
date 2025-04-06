@@ -204,7 +204,7 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str, problems_per_
     """
     prompt_dataset = {}
     
-    sizes = list(range(5,16))
+    sizes = list(range(5,6))
     pbar = tqdm(total=len(sizes) * problems_per_size, desc="Generating LLM Prompts")
     
     for size in sizes:
