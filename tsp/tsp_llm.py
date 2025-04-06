@@ -3,7 +3,7 @@ import random
 from typing import Dict, List, Tuple, Any
 import numpy as np
 from tqdm import tqdm
-from tsp import calculate_tsp_distance, generate_tsp_distance_matrix
+from .tsp import calculate_tsp_distance, generate_tsp_distance_matrix
 
 def load_tsp_problem_dataset(filename: str) -> Dict:
     """
