@@ -193,18 +193,18 @@ reasoning process
     
     return USERPROMPT, reference_distance
 
-def create_prompt_dataset(tsp_dataset: Dict, output_filename: str, problems_per_size: int) -> None:
+def create_prompt_dataset(tsp_dataset: Dict, output_filename: str, sizes: List[int], problems_per_size: int) -> None:
     """
     Create a dataset of LLM prompts from the TSP dataset.
     
     Args:
         dataset: Dictionary containing the TSP dataset.
         output_filename: Path to save the LLM prompts dataset.
+        sizes: Problem sizes we are creating prompts for.
         problems_per_size: Number of problems to include for each size.
     """
     prompt_dataset = {}
     
-    sizes = list(range(5,6))
     pbar = tqdm(total=len(sizes) * problems_per_size, desc="Generating LLM Prompts")
     
     for size in sizes:
@@ -251,19 +251,28 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str, problems_per_
     
     print(f"LLM prompt dataset saved to {output_filename}")
 
-def process_dataset(dataset: Dict) -> Dict:
+def process_dataset(dataset: Dict, sizes: List[int]) -> Dict:
     """
-    Convert coordinates entry to tsp (Dict[int, Tuple[int, int]]) for every problem in dataset.
     Remove metadata entry from dataset.
-
+    Remove problems not in sizes.
+    Convert coordinates entry to tsp (Dict[int, Tuple[int, int]]) for remaining problems.
+    
     Args:
-        dataset: Dictionary containing the TSP dataset.
+        dataset: Dictionary containing the TSP dataset
+        sizes: Problem sizes we want to generate prompts for
     
     Returns:
-        Processed dataset.
+        Processed dataset
     """
     # Remove metadata entry
     del dataset['metadata']
+
+    # Remove problems not in sizes
+    for size_key in list(dataset.keys()):
+        size = int(size_key.split("_")[1])
+        if size not in sizes:
+            del dataset[size_key]
+    
     for size_key in dataset:
         problems = dataset[size_key]
         for problem in problems:
@@ -300,14 +309,17 @@ if __name__ == "__main__":
     
     try:
         # Load the TSP problem dataset
-        dataset = load_tsp_problem_dataset("benchmark/tsp_benchmark_problem_dataset.json")
+        dataset = load_tsp_problem_dataset("grpo/datasets/tsp_training_problem_dataset.json")
         print("TSP problem dataset loaded successfully.")
 
+        # Specify problem sizes to generate prompts for
+        sizes = list(range(5, 6))
+
         # Process dataset for compatibility with rest of script
-        dataset = process_dataset(dataset)
+        dataset = process_dataset(dataset, sizes)
         
         # Create LLM prompts dataset
-        create_prompt_dataset(dataset, "benchmark/tsp_benchmark_dataset.json", problems_per_size=50)
+        create_prompt_dataset(dataset, "grpo/datasets/tsp_training_dataset.json", sizes, problems_per_size=1000)
         
         
     except FileNotFoundError:
