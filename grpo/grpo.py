@@ -3,8 +3,8 @@ import json
 import random
 import numpy as np
 from typing import Dict, List
-from tsp import calculate_tsp_distance
-from tsp_llm import coordinates_to_tsp
+from tsp.tsp import calculate_tsp_distance
+from tsp.tsp_llm import coordinates_to_tsp
 
 
 SYSTEM_PROMPT = """A conversation between User and Assistant. The user asks a question, and the assistant solves it.
@@ -79,15 +79,15 @@ def extract_trace(response: str) -> List[int]:
     # Convert to list of integers
     return [int(num) for num in re.split(r"\s*,\s*", last_match)]
 
-def optimal_solution_reward_func(completions, answer, **kwargs) -> list[float]:
-    """ Score = 2.0 if response solution is within 10 percent of optimal solution, 0.0 otherwise """
+def optimal_solution_reward_func(completions, **kwargs) -> list[float]:
+    """ Score = 2.5 if response solution is within 10 percent of optimal solution, 0.0 otherwise """
 
     # Get responses
     responses = [completion[0]['content'] for completion in completions]
 
     # Get tsp, optimal distance, target distance from extra parms
     tsp = kwargs['tsp'][0]
-    optimal_distance = round(answer[0]['distance'])
+    optimal_distance = kwargs['answer'][0]['distance']
     target_distance = optimal_distance * 1.1
 
     # Extract trace from each response and calculate its distance
@@ -99,11 +99,11 @@ def optimal_solution_reward_func(completions, answer, **kwargs) -> list[float]:
     # Calculate distance for each valid trace
     distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 1.0 else np.inf for i in range(len(traces))]
     
-    # 2.0 for each response that is a valid trace and meets the target distance
+    # 2.5 for each response that is a valid trace and meets the target distance
     return [2.5 if ((valid_response_rewards[i] == 1.0) and (distances[i] <= target_distance)) else 0.0 for i in range(len(responses))]
 
 def improvement_reward_func(completions, **kwargs) -> list[float]:
-    """ Score = 2.0 if response solution improves on provided solutions, 0.0 otherwise """
+    """ Score = 2.5 if response solution improves on provided solutions, 0.0 otherwise """
 
     # Get responses
     responses = [completion[0]['content'] for completion in completions]
@@ -121,11 +121,11 @@ def improvement_reward_func(completions, **kwargs) -> list[float]:
     # Calcualte distance for each valid trace
     distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 1.0 else np.inf for i in range(len(traces))]
 
-    # 2.0 if each response that is a valid trace beats the reference distance
+    # 2.5 if each response that is a valid trace meets the reference distance
     return [2.5 if ((valid_response_rewards[i] == 1.0) and (distances[i] < reference_distance)) else 0.0 for i in range(len(responses))]
 
 def valid_response_reward_func(completions, **kwargs) -> list[float]:
-    """ Score = 1.0 if response solution contains trace with correct length, starts with node 0,
+    """ Score = 0.5 if response solution contains trace with correct length, starts with node 0,
     ends with node 0, and is a valid path, 0.0 otherwise """
 
     # Get responses
@@ -141,7 +141,7 @@ def valid_response_reward_func(completions, **kwargs) -> list[float]:
     return valid_response_reward_helper(traces, trace_length)
 
 def valid_response_reward_helper(traces: List[List[int]], trace_length: int) -> List[float]:
-    """ Score = 1.0 if response solution contains trace with correct length, starts with node 0,
+    """ Score = 0.5 if response solution contains trace with correct length, starts with node 0,
     ends with node 0, and is a valid path, 0.0 otherwise """
     return [
         0.5 if len(trace) == trace_length
@@ -150,14 +150,14 @@ def valid_response_reward_helper(traces: List[List[int]], trace_length: int) -> 
         and set(trace) == set(range(trace_length - 1)) else 0.0 for trace in traces]
 
 def strict_format_reward_func(completions, **kwargs) -> list[float]:
-    """ Score = 0.5 if response solution matches requested solution format, 0.0 otherwise """
+    """ Score = 0.25 if response solution matches requested solution format, 0.0 otherwise """
     responses = [completion[0]["content"] for completion in completions]
     pattern = STRICT_FORMAT_REGEX
     matches = [re.match(pattern, response, flags=re.DOTALL) for response in responses] 
     return [0.25 if match else 0.0 for match in matches]
 
 def soft_format_reward_func(completions, **kwargs) -> list[float]:
-    """ Score = 0.5 if response solution loosely matches request solution format, 0.0 otherwise """
+    """ Score = 0.25 if response solution loosely matches request solution format, 0.0 otherwise """
     responses = [completion[0]["content"] for completion in completions]
     pattern = SOFT_FORMAT_REGEX
     matches = [re.match(pattern, response, flags=re.DOTALL) for response in responses] 

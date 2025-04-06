@@ -1,5 +1,6 @@
 import numpy as np
 import itertools
+import os
 import random
 import math
 import time
@@ -204,63 +205,31 @@ def solve_and_summarize_tsp(problem_data: Dict[str, Any]) -> Dict[str, Any]:
     del problem_data['tsp']
     problem_data['solution'] = {
         "path": solution_path,
-        "distance": solution_distance,
+        "distance": round(solution_distance),
         "solve_time_seconds": solve_time
     }
     return problem_data
 
-def create_tsp_dataset(sizes: List[int], count_per_size: int) -> Dict:
+def open_tsp_dataset(filename: str) -> Dict:
     """
-    Create a dataset of TSP problems and their solutions. Solve TSP problems in parallel.
-    
-    Args:
-        sizes: List of problem sizes (number of nodes).
-        count_per_size: Number of problems to generate for each size.
-        
-    Returns:
-        Dictionary containing the generated problems and solutions.
-    """
-    dataset = {}
-    
-    # Build list of problems
-    problems = []
-    for size in sizes:
-        for i in tqdm(range(count_per_size)):
-            # Generate a TSP problem
-            tsp = generate_tsp(size)
-            
-            # Store the problem and problem metadata
-            problem_data = {
-                "problem_id": f"tsp_{size}_{i}",
-                "size": size,
-                "coordinates": {str(k): v for k, v in tsp.items()},  # Convert keys to strings for JSON
-                "tsp": tsp
-            }
-            
-            problems.append(problem_data)
-    
-    num_cores = mp.cpu_count()
-    print(f"Solving problems in parallel, using {num_cores} cores")
+    Open json dataset at given path. If the file does not exist, return empty dict.
 
-    # Solve problems in parallel
-    with mp.Pool(processes=num_cores) as pool:
-        results = pool.map(solve_and_summarize_tsp, problems)
+    Args:
+        filename: File name of json dataset
     
-    # Group results by size
-    for result in results:
-        size = result['size']
-        if f"size_{size}" in dataset:
-            dataset[f"size_{size}"].append(result)
-        else:
-            dataset[f"size_{size}"] = [result]
-    
-    # Sort results by problem id
-    for size in dataset:
-        dataset[size] = sorted(dataset[size], key=lambda x: int(x['problem_id'].split("_")[2]))
+    Returns:
+        Dict: The existing dataset, or empty dict
+    """
+
+    if os.path.exists(filename):
+        with open(filename, 'r') as file:
+            dataset = json.load(file)
+    else:
+        dataset = {}
     
     return dataset
 
-def serialize_tsp_dataset(dataset, filename="tsp_dataset.json"):
+def serialize_tsp_dataset(dataset: Dict, filename: str) -> None:
     """
     Serialize the TSP dataset to a JSON file.
     """
@@ -287,6 +256,83 @@ def serialize_tsp_dataset(dataset, filename="tsp_dataset.json"):
     
     print(f"Dataset saved to {filename}")
 
+def create_tsp_dataset(sizes: List[int], count_per_size: int, filename: str) -> None:
+    """
+    Create a dataset of TSP problems and their solutions. Solve TSP problems in parallel.
+    
+    Args:
+        sizes: List of problem sizes (number of nodes).
+        count_per_size: Number of problems to generate for each size.
+    """
+    
+    # Note start time
+    start_time = time.time()
+
+    # Create tsp dataset one size at a time
+    for size in sizes:
+        size_key = f"size_{size}"
+        problems = []
+        for i in tqdm(range(count_per_size)):
+            # Generate a TSP problem
+            tsp = generate_tsp(size)
+            
+            # Store the problem and problem metadata
+            problem = {
+                "problem_id": f"tsp_{size}_{i}",
+                "size": size,
+                "coordinates": {str(k): v for k, v in tsp.items()},  # Convert keys to strings for JSON
+                "tsp": tsp
+            }
+            problems.append(problem)
+        
+        # Solve problems in parallel
+        num_cores = mp.cpu_count()
+        print(f"Solving {size_key} problems in parallel, using {num_cores} cores")
+        with mp.Pool(processes=num_cores) as pool:
+            results = pool.map(solve_and_summarize_tsp, problems)
+        
+        # Sort results by problem id
+        results = sorted(results, key=lambda x: int(x['problem_id'].split("_")[2]))
+
+        # Open dataset
+        dataset = open_tsp_dataset(filename)
+
+        # Add new problems
+        dataset[size_key] = results
+
+        # Serialize dataset
+        serialize_tsp_dataset(dataset, filename)
+    
+    # Note end time
+    end_time = time.time()
+    generation_time = end_time - start_time
+    
+    # Open dataset
+    dataset = open_tsp_dataset(filename)
+
+    # Add metadata
+    if not "metadata" in dataset:
+        dataset["metadata"] = {
+            "total_problems": len(sizes) * count_per_size,
+            "generation_time": generation_time,
+            "sizes": sizes,
+            "count_per_size": count_per_size,
+            "date_generated": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "description": "TSP problems and solutions dataset"
+        }
+    else:
+        dataset["metadata"] = {
+            "total_problems": dataset["total_problems"] + len(sizes) * count_per_size,
+            "generation_time": dataset["total_problems"] + generation_time,
+            "sizes": dataset["sizes"] + sizes,
+            "count_per_size": count_per_size,
+            "date_generated": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "description": "TSP problems and solutions dataset"
+        }
+
+    # Serialize dataset
+    serialize_tsp_dataset(dataset, filename)
+
 # Generate the dataset
 if __name__ == "__main__":
     # Set random seed for reproducibility
@@ -294,29 +340,17 @@ if __name__ == "__main__":
     np.random.seed(42)
     
     # Define problem sizes and count per size
-    sizes = list(range(5,16))
-    count_per_size = 90
+    sizes = list(range(5, 16))
+    count_per_size = 100
     
     print(f"Creating a dataset with {count_per_size} problems for each size: {sizes}")
     print(f"Total problems: {len(sizes) * count_per_size}")
     
     # Create and save the dataset
-    start_time = time.time()
-    dataset = create_tsp_dataset(sizes, count_per_size)
-    generation_time = time.time() - start_time
-    
-    # Add metadata
-    dataset["metadata"] = {
-        "total_problems": len(sizes) * count_per_size,
-        "generation_time": generation_time,
-        "sizes": sizes,
-        "count_per_size": count_per_size,
-        "date_generated": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "description": "TSP problems and solutions dataset"
-    }
-    
-    # Save the dataset
-    serialize_tsp_dataset(dataset, "tsp_benchmark_dataset.json")
+    create_tsp_dataset(sizes, count_per_size, "tsp_problems_benchmark_dataset.json")
+
+    # Open dataset
+    dataset = open_tsp_dataset("tsp_problems_benchmark_dataset.json")
     
     # Print summary statistics
     print("\nDataset Summary:")
