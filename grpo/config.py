@@ -1,0 +1,41 @@
+from dataclasses import dataclass
+from typing import List
+from .grpo import optimal_solution_reward_func, improvement_reward_func, valid_response_reward_func, strict_format_reward_func, soft_format_reward_func
+
+@dataclass
+class GRPORunConfig:
+    model: str
+    training_output_dir: str
+    wandb_project_name: str
+    wandb_run_name: str
+    max_seq_length: int
+    max_lora_rank: int
+    per_device_train_batch_size: int
+    gradient_accumulation_steps: int
+    num_generations: int
+    max_prompt_length: int
+    max_completion_length: int
+    num_train_epochs: int
+    reward_funcs: List[function]
+
+config1 = GRPORunConfig(
+    model = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit",
+    training_output_dir = "grpo/out/Qwen2.5-3B-Instruct/run2",
+    wandb_project_name = "Qwen2.5-3B-Instruct",
+    wandb_run_name = "run2",
+    max_seq_length = 2600,
+    max_lora_rank = 64,
+    per_device_train_batch_size = 8,
+    gradient_accumulation_steps = 1,
+    num_generations = 8,
+    max_prompt_length = 600,
+    max_completion_length = 2000,
+    num_train_epochs = 2,
+    reward_funcs = [
+        optimal_solution_reward_func,
+        improvement_reward_func,
+        valid_response_reward_func,
+        strict_format_reward_func,
+        soft_format_reward_func
+    ]
+)
