@@ -10,10 +10,8 @@
 #SBATCH --gpus-per-node=1
 #SBATCH --gpu-bind=closest
 #SBATCH --account=bchk-delta-gpu
-#SBATCH --exclusive
 #SBATCH --no-requeue
 #SBATCH -t 18:00:00
-
 cd /scratch/bchk/jfahy/final_env     # move to project dir
 eval "$(conda shell.bash hook)"      # initialize conda in env
 conda activate unsloth_env           # activate conda env
