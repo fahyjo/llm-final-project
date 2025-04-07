@@ -12,12 +12,12 @@ from tsp.tsp import calculate_tsp_distance
 from tsp.tsp_llm import coordinates_to_tsp
 
 
-MODEL = "unsloth/Qwen2.5-7B-Instruct-bnb-4bit"
+MODEL = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit"
 TRAINING_DATASET = "grpo/datasets/tsp_training_dataset.json"
-TRAINING_OUTPUT_DIR = "grpo/out/Qwen2.5-7B-Instruct-GRPO"
+TRAINING_OUTPUT_DIR = "grpo/out/Qwen2.5-3B-Instruct/run0"
 
-WANDB_PROJECT_NAME = "Qwen2.5-7B-Instruct-GRPO"
-WANDB_RUN_NAME = "Size-5-Baseline"
+WANDB_PROJECT_NAME = "Qwen2.5-3B-Instruct"
+WANDB_RUN_NAME = "run0"
 
 SYSTEM_PROMPT = """A conversation between User and Assistant. The user asks a question, and the assistant solves it.
  The assistant first thinks about the reasoning process in the mind and then provides the user with the answer.
@@ -178,10 +178,10 @@ if __name__ == "__main__":
     # Load model and tokenizer
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name = MODEL,
-        max_seq_length = 3200,        # Can increase for longer reasoning traces
+        max_seq_length = 2048,        # Can increase for longer reasoning traces
         load_in_4bit = True,          # False for LoRA 16
         fast_inference = True,        # Enable vLLM fast inference
-        max_lora_rank = 32,           # Larger rank = smarter, but slower
+        max_lora_rank = 64,           # Larger rank = smarter, but slower
         gpu_memory_utilization = 0.5, # Reduce if out of memory
         dtype=torch.bfloat16
     )
@@ -189,12 +189,12 @@ if __name__ == "__main__":
     # Apply PEFT
     model = FastLanguageModel.get_peft_model(
         model,
-        r = 32,                                     # Choose any number > 0 ! Suggested 8, 16, 32, 64, 128
+        r = 64,                                     # Choose any number > 0 ! Suggested 8, 16, 32, 64, 128
         target_modules = [
             "q_proj", "k_proj", "v_proj", "o_proj",
             "gate_proj", "up_proj", "down_proj",
         ],                                          # Remove QKVO if out of memory
-        lora_alpha = 32,
+        lora_alpha = 64,
         use_gradient_checkpointing = "unsloth",     # Enable long context finetuning
         random_state = 3407,
     )
@@ -233,11 +233,11 @@ if __name__ == "__main__":
         logging_steps = 1,
         bf16 = True,
         fp16 = False,
-        per_device_train_batch_size = 4,
+        per_device_train_batch_size = 8,
         gradient_accumulation_steps = 1, # Increase to 4 for smoother training
-        num_generations = 4,             # Decrease if out of memory
+        num_generations = 8,             # Decrease if out of memory
         max_prompt_length = 600,         # SPECIFICALLY FOR SIZE 5
-        max_completion_length = 2600,
+        max_completion_length = 1448,
         num_train_epochs = 1,            # Set to 1 for a full training run
         max_steps = len(dataset),
         save_steps = 100,
@@ -245,7 +245,7 @@ if __name__ == "__main__":
         report_to = "wandb",              # Can use Weights & Biases
         output_dir = TRAINING_OUTPUT_DIR,
         temperature=0.7,
-        beta=0.0
+        beta = 0.0
     )
 
     # Load GRPO Trainer

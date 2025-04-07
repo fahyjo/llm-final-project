@@ -9,9 +9,9 @@ from tsp.tsp_llm import coordinates_to_tsp
 from tsp.tsp import calculate_tsp_distance
 
 
-MODEL = "unsloth/Qwen2.5-7B-Instruct-bnb-4bit"
-BENCHMARK_DATASET = "tsp_benchmark_dataset.json"
-BENCHMARK_RESULTS = "tsp_benchmark_results_qwen2.5-7B-2.json"
+MODEL = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit"
+BENCHMARK_DATASET = "benchmark/datasets/tsp_bechmark_dataset.json"
+BENCHMARK_RESULTS = "benchmark/results/Qwen2.5-3B-Instruct/tsp_benchmark_results.json"
 
 
 def load_benchmark_dataset(filename: str) -> Dict:
