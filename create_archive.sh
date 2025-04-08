@@ -42,6 +42,7 @@ echo "Processing grpo files..."
 check_file "grpo/__init__.py" && cp "grpo/__init__.py" "$TEMP_DIR/grpo/"
 check_file "grpo/grpo.py" && cp "grpo/grpo.py" "$TEMP_DIR/grpo/"
 check_file "grpo/grpo.ipynb" && cp "grpo/grpo.ipynb" "$TEMP_DIR/grpo/"
+check_file "grpo/config.py" && cp "grpo/config.py" "$TEMP_DIR/grpo/"
 check_file "grpo/datasets/tsp_training_dataset.json" && cp "grpo/datasets/tsp_training_dataset.json" "$TEMP_DIR/grpo/datasets/"
 check_file "grpo/datasets/tsp_training_problem_dataset.json" && cp "grpo/datasets/tsp_training_problem_dataset.json" "$TEMP_DIR/grpo/datasets/"
 
