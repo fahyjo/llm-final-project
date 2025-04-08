@@ -122,7 +122,7 @@ def optimal_solution_reward_func(completions, **kwargs) -> list[float]:
     distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 0.5 else np.inf for i in range(len(traces))]
     
     # 2.5 for each response that meets the target distance
-    return [2.5 if distance <= target_distance else 0.0 for distance in distances]
+    return [1.0 if distance <= target_distance else 0.0 for distance in distances]
 
 def improvement_reward_func(completions, **kwargs) -> list[float]:
     """ Score = 2.5 if response solution improves on provided solutions, 0.0 otherwise """
@@ -144,7 +144,7 @@ def improvement_reward_func(completions, **kwargs) -> list[float]:
     distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 0.5 else np.inf for i in range(len(traces))]
 
     # 2.5 for each response that meets the reference distance
-    return [2.5 if distance <= reference_distance else 0.0 for distance in distances]
+    return [1.0 if distance <= reference_distance else 0.0 for distance in distances]
 
 def valid_response_reward_func(completions, **kwargs) -> list[float]:
     """ Score = 0.5 if response solution contains trace with correct length, starts with node 0,
@@ -166,7 +166,7 @@ def valid_response_reward_helper(traces: List[List[int]], trace_length: int) -> 
     """ Score = 0.5 if response solution contains trace with correct length, starts with node 0,
     ends with node 0, and is a valid path, 0.0 otherwise """
     return [
-        0.5 if len(trace) == trace_length
+        1.0 if len(trace) == trace_length
         and trace[0] == 0
         and trace[-1] == 0
         and set(trace) == set(range(trace_length - 1)) else 0.0 for trace in traces]
@@ -176,14 +176,14 @@ def strict_format_reward_func(completions, **kwargs) -> list[float]:
     responses = [completion[0]["content"] for completion in completions]
     pattern = STRICT_FORMAT_REGEX
     matches = [re.match(pattern, response, flags=re.DOTALL) for response in responses] 
-    return [0.25 if match else 0.0 for match in matches]
+    return [1.0 if match else 0.0 for match in matches]
 
 def soft_format_reward_func(completions, **kwargs) -> list[float]:
     """ Score = 0.25 if response solution loosely matches request solution format, 0.0 otherwise """
     responses = [completion[0]["content"] for completion in completions]
     pattern = SOFT_FORMAT_REGEX
     matches = [re.match(pattern, response, flags=re.DOTALL) for response in responses] 
-    return [0.25 if match else 0.0 for match in matches]
+    return [1.0 if match else 0.0 for match in matches]
 
 
 if __name__ == "__main__":
@@ -234,12 +234,12 @@ if __name__ == "__main__":
     # Load GRPO Config
     training_args = GRPOConfig(
         use_vllm = True,                                                   # Use vLLM for fast inference!
-        learning_rate = 5e-6,
+        learning_rate = config.learning_rate,
         adam_beta1 = 0.9,
         adam_beta2 = 0.99,
         weight_decay = 0.1,
         warmup_ratio = 0.1,
-        lr_scheduler_type = "cosine",
+        lr_scheduler_type = config.lr_scheduler_type,
         optim = "adamw_8bit",
         logging_steps = 1,
         bf16 = True,
@@ -256,7 +256,8 @@ if __name__ == "__main__":
         report_to = "wandb",                                              # Can use Weights & Biases
         output_dir = config.training_output_dir,
         temperature=0.7,
-        beta = 0.0
+        beta = 0.0,
+        reward_weights = config.reward_weights
     )
 
     # Load GRPO Trainer
