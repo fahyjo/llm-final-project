@@ -86,6 +86,29 @@ def extract_trace(response: str) -> List[int]:
     # Convert to list of integers
     return [int(num) for num in re.split(r"\s*,\s*", last_match)]
 
+
+def scaled_reward_func(completions, **kwargs) -> list[float]:
+    """ Score dependent on how close to optiomal solution"""
+
+    # Get responses
+    responses = [completion[0]['content'] for completion in completions]
+
+    # Get tsp, optimal distance, target distance from extra parms
+    tsp = kwargs['tsp'][0]
+    optimal_distance = kwargs['answer'][0]['distance']
+    # Extract trace from each response and calculate its distance
+    traces = [extract_trace(response) for response in responses]
+
+    # Determine if each response is a valid response
+    valid_response_rewards = valid_response_reward_helper(traces, len(tsp) + 1)
+
+    # Calculate distance for each valid trace
+    distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 1.0 else np.inf for i in range(len(traces))]
+    
+    ratios = [1-((distance-optimal_distance) / (optimal_distance)) if distance != np.inf else 0.0 for distance in distances]
+
+    return ratios
+
 def optimal_solution_reward_func(completions, **kwargs) -> list[float]:
     """ Score = 2.5 if response solution is within 10 percent of optimal solution, 0.0 otherwise """
 
@@ -108,6 +131,7 @@ def optimal_solution_reward_func(completions, **kwargs) -> list[float]:
     
     # 2.5 for each response that meets the target distance
     return [1.0 if distance <= target_distance else 0.0 for distance in distances]
+
 
 def improvement_reward_func(completions, **kwargs) -> list[float]:
     """ Score = 2.5 if response solution improves on provided solutions, 0.0 otherwise """
@@ -188,7 +212,7 @@ class GRPORunConfig:
     reward_weights: List[float]
     lr_scheduler_type: str
     learning_rate: float
-
+    
 config1 = GRPORunConfig(
     model = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit",
     training_output_dir = "grpo/out/Qwen2.5-3B-Instruct/run2",
@@ -239,6 +263,81 @@ config2 = GRPORunConfig(
     lr_scheduler_type="constant"
 )
 
+config3 = GRPORunConfig(
+    model = "unsloth/gemma-3-4b-it-unsloth-bnb-4bit",
+    training_output_dir = "grpo/out/gemma-3-4b-it/scaled_rewards_gemma",
+    wandb_project_name = "gemma-3-4b-it",
+    wandb_run_name = "scaled_rewards_gemma",
+    max_seq_length = 2600,
+    max_lora_rank = 64,
+    per_device_train_batch_size = 8,
+    gradient_accumulation_steps = 1,
+    num_generations = 8,
+    max_prompt_length = 600,
+    max_completion_length = 2000,
+    num_train_epochs = 1,
+    reward_funcs = [
+        scaled_reward_func,
+        improvement_reward_func,
+        valid_response_reward_func,
+        strict_format_reward_func,
+        soft_format_reward_func
+    ],
+    reward_weights = [4, 2.5, 0.35, .75, .75],
+    learning_rate=1e-5,
+    lr_scheduler_type="constant"
+)
+# Gemma 3 optimized configuration
+gemma3_config = GRPORunConfig(
+    model = "unsloth/gemma-3-4b-it-unsloth-bnb-4bit",
+    training_output_dir = "grpo/out/gemma-3-4b-it/scaled_rewards_gemma",
+    wandb_project_name = "gemma-3-4b-it",
+    wandb_run_name = "scaled_rewards_gemma",
+    max_seq_length = 2600,
+    max_lora_rank = 64,
+    per_device_train_batch_size = 8,
+    gradient_accumulation_steps = 1,
+    num_generations = 8,
+    max_prompt_length = 600,
+    max_completion_length = 2000,
+    num_train_epochs = 1,
+    reward_funcs = [
+        scaled_reward_func,
+        improvement_reward_func,
+        valid_response_reward_func,
+        strict_format_reward_func,
+        soft_format_reward_func
+    ],
+    reward_weights = [4, 2.5, 0.35, .75, .75],
+    learning_rate=1e-5,
+    lr_scheduler_type="constant"
+)
+
+qwen_config = GRPORunConfig(
+    model = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit",
+    training_output_dir = "grpo/out/Qwen2.5-3B-Instruct/qwen_scaled",
+    wandb_project_name = "Qwen2.5-3B-Instruct",
+    wandb_run_name = "qwen_scaled",
+    max_seq_length = 2600,
+    max_lora_rank = 64,
+    per_device_train_batch_size = 8,
+    gradient_accumulation_steps = 1,
+    num_generations = 8,
+    max_prompt_length = 600,
+    max_completion_length = 2000,
+    num_train_epochs = 1,
+    reward_funcs = [
+        scaled_reward_func,
+        improvement_reward_func,
+        valid_response_reward_func,
+        strict_format_reward_func,
+        soft_format_reward_func
+    ],
+    reward_weights = [4, 2.5, 0.35, 1, 1],
+    learning_rate=1e-5,
+    lr_scheduler_type="constant"
+)
+
 def get_config(config: str) -> GRPORunConfig:
     """
     Returns the GRPOConfig dataclass specified in cli to grpo script.
@@ -249,8 +348,16 @@ def get_config(config: str) -> GRPORunConfig:
     Returns:
         GRPORunConfig: config to run grpo script
     """
-    if config == "config1":
+    if config == "gemma3":
+        return gemma3_config
+    elif config == "config1":
         return config1
+    elif config == "config2":
+        return config2
+    elif config == "config3":
+        return config3
+    elif config == "qwen":
+        return qwen_config
     else:
         return None
 
@@ -264,27 +371,55 @@ if __name__ == "__main__":
     # Get config
     config: GRPORunConfig = get_config(args.config)
 
-    # Load model and tokenizer
+    # Configure torch for bfloat16 use with Gemma 3
+    if "gemma" in config.model.lower():
+        # Gemma 3 models require bfloat16 to avoid infinity issues
+        # Set dtype based on model
+        if torch.cuda.is_available() and torch.cuda.get_device_capability()[0] >= 8:
+            # For RTX 30xx+ series, A100, H100 GPUs that support bfloat16
+            dtype = torch.bfloat16
+        else:
+            # For older GPUs (T4, RTX 20xx, V100) that don't have good bfloat16 support
+            # Using float32 is safer but will use more memory
+            dtype = torch.float32
+    else:
+        # Other models can use bfloat16
+        dtype = torch.bfloat16
+
+    # Load model and tokenizer - disable vLLM for Gemma 3
+    use_fast_inference = False if "gemma" in config.model.lower() else True
+    
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name = config.model,
-        max_seq_length = config.max_seq_length, # Can increase for longer reasoning traces
+        max_seq_length = config.max_seq_length,
         load_in_4bit = True,                    # False for LoRA 16
-        fast_inference = True,                  # Enable vLLM fast inference
+        fast_inference = use_fast_inference,    # Disable vLLM for Gemma models
         max_lora_rank = config.max_lora_rank,   # Larger rank = smarter, but slower
         gpu_memory_utilization = 0.5,           # Reduce if out of memory
-        dtype=torch.bfloat16
+        dtype=dtype
     )
+
+    # Determine target modules based on model type
+    if "gemma" in config.model.lower():
+        # Target modules for Gemma architecture
+        target_modules = [
+            "q_proj", "k_proj", "v_proj", "o_proj",
+            "gate_proj", "up_proj", "down_proj"
+        ]
+    else:
+        # Default target modules (already in your original code)
+        target_modules = [
+            "q_proj", "k_proj", "v_proj", "o_proj",
+            "gate_proj", "up_proj", "down_proj"
+        ]
 
     # Apply PEFT
     model = FastLanguageModel.get_peft_model(
         model,
-        r = config.max_lora_rank,                   # Choose any number > 0 ! Suggested 8, 16, 32, 64, 128
-        target_modules = [
-            "q_proj", "k_proj", "v_proj", "o_proj",
-            "gate_proj", "up_proj", "down_proj",
-        ],                                          # Remove QKVO if out of memory
+        r = config.max_lora_rank,
+        target_modules = target_modules,
         lora_alpha = config.max_lora_rank,
-        use_gradient_checkpointing = "unsloth",     # Enable long context finetuning
+        use_gradient_checkpointing = "unsloth",  # Enable long context finetuning
         random_state = 3407,
     )
 
@@ -302,7 +437,7 @@ if __name__ == "__main__":
 
     # Load GRPO Config
     training_args = GRPOConfig(
-        use_vllm = True,                                                   # Use vLLM for fast inference!
+        use_vllm = False if "gemma" in config.model.lower() else True,  # Disable vLLM for Gemma 3 models
         learning_rate = config.learning_rate,
         adam_beta1 = 0.9,
         adam_beta2 = 0.99,
@@ -311,18 +446,18 @@ if __name__ == "__main__":
         lr_scheduler_type = config.lr_scheduler_type,
         optim = "adamw_8bit",
         logging_steps = 1,
-        bf16 = True,
+        bf16 = "gemma" in config.model.lower() and dtype == torch.bfloat16,  # Only use bf16 for Gemma if supported
         fp16 = False,
         per_device_train_batch_size = config.per_device_train_batch_size,
-        gradient_accumulation_steps = config.gradient_accumulation_steps, # Increase to 4 for smoother training
-        num_generations = config.num_generations,                         # Decrease if out of memory
-        max_prompt_length = config.max_prompt_length,                     # SPECIFICALLY FOR SIZE 5
+        gradient_accumulation_steps = config.gradient_accumulation_steps,
+        num_generations = config.num_generations,
+        max_prompt_length = config.max_prompt_length,
         max_completion_length = config.max_completion_length,
-        num_train_epochs = config.num_train_epochs,                       # Set to 1 for a full training run
+        num_train_epochs = config.num_train_epochs,
         max_steps = len(dataset) * config.num_train_epochs,
         save_steps = 100,
         max_grad_norm = 0.1,
-        report_to = "wandb",                                              # Can use Weights & Biases
+        report_to = "wandb",
         output_dir = config.training_output_dir,
         temperature=0.7,
         beta = 0.0,
