@@ -11,8 +11,11 @@
 #SBATCH --gpu-bind=closest
 #SBATCH --account=bchk-delta-gpu
 #SBATCH --no-requeue
-#SBATCH -t 18:00:00
-cd /scratch/bchk/jfahy/final_env     # move to project dir
+#SBATCH -t 00:10:00
+cd /scratch/bchk/jfahy/final_project # move to project dir
+module load anaconda3_gpu/23.9.0
+module load cudnn/8.9.0.131
+module load python/3.10.13
 eval "$(conda shell.bash hook)"      # initialize conda in env
 conda activate unsloth_env           # activate conda env
 python -m grpo.grpo --config config1 # launch grpo run

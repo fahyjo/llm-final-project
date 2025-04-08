@@ -8,14 +8,13 @@ import re
 import json
 import random
 import numpy as np
-from typing import Dict, List
-from .grpo import GRPORunConfig, config1
+from dataclasses import dataclass
+from typing import Dict, List, Any
 from tsp.tsp import calculate_tsp_distance
 from tsp.tsp_llm import coordinates_to_tsp
 
 
 TRAINING_DATASET = "grpo/datasets/tsp_training_dataset.json"
-
 
 SYSTEM_PROMPT = """A conversation between User and Assistant. The user asks a question, and the assistant solves it.
  The assistant first thinks about the reasoning process in the mind and then provides the user with the answer.
@@ -29,20 +28,6 @@ SYSTEM_PROMPT = """A conversation between User and Assistant. The user asks a qu
 STRICT_FORMAT_REGEX = r"^<reasoning>\n.*?\n</reasoning>\n<trace>\n.*?\n</trace>$"
 SOFT_FORMAT_REGEX = r"<reasoning>.*?</reasoning>\s*<trace>.*?</trace>"
 
-def get_config(config: str) -> GRPORunConfig:
-    """
-    Returns the GRPOConfig dataclass specified in cli to grpo script.
-
-    Args:
-        config: the name of the GRPOConfig
-    
-    Returns:
-        GRPORunConfig: config to run grpo script
-    """
-    if config == "config1":
-        return config1
-    else:
-        return None
 
 def load_training_dataset(filename: str) -> Dict:
     """
@@ -119,7 +104,7 @@ def optimal_solution_reward_func(completions, **kwargs) -> list[float]:
     valid_response_rewards = valid_response_reward_helper(traces, len(tsp) + 1)
 
     # Calculate distance for each valid trace
-    distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 0.5 else np.inf for i in range(len(traces))]
+    distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 1.0 else np.inf for i in range(len(traces))]
     
     # 2.5 for each response that meets the target distance
     return [1.0 if distance <= target_distance else 0.0 for distance in distances]
@@ -141,7 +126,7 @@ def improvement_reward_func(completions, **kwargs) -> list[float]:
     valid_response_rewards = valid_response_reward_helper(traces, len(tsp) + 1)
 
     # Calculate distance for each valid trace
-    distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 0.5 else np.inf for i in range(len(traces))]
+    distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 1.0 else np.inf for i in range(len(traces))]
 
     # 2.5 for each response that meets the reference distance
     return [1.0 if distance <= reference_distance else 0.0 for distance in distances]
@@ -184,6 +169,90 @@ def soft_format_reward_func(completions, **kwargs) -> list[float]:
     pattern = SOFT_FORMAT_REGEX
     matches = [re.match(pattern, response, flags=re.DOTALL) for response in responses] 
     return [1.0 if match else 0.0 for match in matches]
+
+@dataclass
+class GRPORunConfig:
+    model: str
+    training_output_dir: str
+    wandb_project_name: str
+    wandb_run_name: str
+    max_seq_length: int
+    max_lora_rank: int
+    per_device_train_batch_size: int
+    gradient_accumulation_steps: int
+    num_generations: int
+    max_prompt_length: int
+    max_completion_length: int
+    num_train_epochs: int
+    reward_funcs: List[Any]
+    reward_weights: List[float]
+    lr_scheduler_type: str
+    learning_rate: float
+
+config1 = GRPORunConfig(
+    model = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit",
+    training_output_dir = "grpo/out/Qwen2.5-3B-Instruct/run2",
+    wandb_project_name = "Qwen2.5-3B-Instruct",
+    wandb_run_name = "run2",
+    max_seq_length = 2600,
+    max_lora_rank = 64,
+    per_device_train_batch_size = 8,
+    gradient_accumulation_steps = 1,
+    num_generations = 8,
+    max_prompt_length = 600,
+    max_completion_length = 2000,
+    num_train_epochs = 1,
+    reward_funcs = [
+        optimal_solution_reward_func,
+        improvement_reward_func,
+        valid_response_reward_func,
+        strict_format_reward_func,
+        soft_format_reward_func
+    ],
+    reward_weights = [2.5, 2.5, 0.5, 0.5, 0.5],
+    learning_rate=5e-6,
+    lr_scheduler_type="cosine"
+)
+
+config2 = GRPORunConfig(
+    model = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit",
+    training_output_dir = "grpo/out/Qwen2.5-3B-Instruct/runjacob1",
+    wandb_project_name = "Qwen2.5-3B-Instruct",
+    wandb_run_name = "runjacob1",
+    max_seq_length = 2600,
+    max_lora_rank = 64,
+    per_device_train_batch_size = 8,
+    gradient_accumulation_steps = 1,
+    num_generations = 8,
+    max_prompt_length = 600,
+    max_completion_length = 2000,
+    num_train_epochs = 1,
+    reward_funcs = [
+        optimal_solution_reward_func,
+        improvement_reward_func,
+        valid_response_reward_func,
+        strict_format_reward_func,
+        soft_format_reward_func
+    ],
+    reward_weights = [2.5, 2.5, 0.35, 0.35, 0.35],
+    learning_rate=1e-5,
+    lr_scheduler_type="constant"
+)
+
+def get_config(config: str) -> GRPORunConfig:
+    """
+    Returns the GRPOConfig dataclass specified in cli to grpo script.
+
+    Args:
+        config: the name of the GRPOConfig
+    
+    Returns:
+        GRPORunConfig: config to run grpo script
+    """
+    if config == "config1":
+        return config1
+    else:
+        return None
 
 
 if __name__ == "__main__":
