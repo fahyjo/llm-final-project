@@ -313,13 +313,13 @@ if __name__ == "__main__":
         print("TSP problem dataset loaded successfully.")
 
         # Specify problem sizes to generate prompts for
-        sizes = list(range(5, 6))
+        sizes = list(range(5, 8))
 
         # Process dataset for compatibility with rest of script
         dataset = process_dataset(dataset, sizes)
         
         # Create LLM prompts dataset
-        create_prompt_dataset(dataset, "grpo/datasets/tsp_training_dataset.json", sizes, problems_per_size=1000)
+        create_prompt_dataset(dataset, "grpo/datasets/tsp_training_dataset2.json", sizes, problems_per_size=333)
         
         
     except FileNotFoundError:

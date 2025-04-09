@@ -446,7 +446,7 @@ if __name__ == "__main__":
         lr_scheduler_type = config.lr_scheduler_type,
         optim = "adamw_8bit",
         logging_steps = 1,
-        bf16 = "gemma" in config.model.lower() and dtype == torch.bfloat16,  # Only use bf16 for Gemma if supported
+        bf16 = True,  # Only use bf16 for Gemma if supported
         fp16 = False,
         per_device_train_batch_size = config.per_device_train_batch_size,
         gradient_accumulation_steps = config.gradient_accumulation_steps,
