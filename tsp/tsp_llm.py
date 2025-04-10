@@ -145,6 +145,7 @@ def generate_llm_prompt(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -
     # Generate sample solutions
     samples = generate_sample_solutions(tsp, num_samples)
     reference_distance = round(samples[-1]["distance"])
+    reference_path = samples[-1]["path"]
     
     # Start building the prompt
     USERPROMPT = f"""You are solving a Traveling Salesperson Problem (TSP). Your goal is to find the shortest possible route that visits each city exactly once and returns to the starting city.
@@ -191,7 +192,7 @@ reasoning process
 </trace>
 """
     
-    return USERPROMPT, reference_distance
+    return USERPROMPT, reference_distance, reference_path
 
 def create_prompt_dataset(tsp_dataset: Dict, output_filename: str, sizes: List[int], problems_per_size: int) -> None:
     """
@@ -222,7 +223,7 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str, sizes: List[i
         
         # Generate llm prompt
         for problem in (selected_problems):
-            prompt, reference_distance = generate_llm_prompt(problem['tsp'])
+            prompt, reference_distance, reference_path = generate_llm_prompt(problem['tsp'])
             
             # Add to size dataset
             size_dataset.append({
@@ -231,6 +232,7 @@ def create_prompt_dataset(tsp_dataset: Dict, output_filename: str, sizes: List[i
                 "coordinates": problem["tsp"],
                 "prompt": prompt,
                 "reference_distance": reference_distance,
+                "reference_path": reference_path,
                 "solution": {
                     "path": problem["solution"]["path"],
                     "distance": problem["solution"]["distance"]
@@ -313,13 +315,13 @@ if __name__ == "__main__":
         print("TSP problem dataset loaded successfully.")
 
         # Specify problem sizes to generate prompts for
-        sizes = list(range(5, 8))
+        sizes = list(range(5, 6))
 
         # Process dataset for compatibility with rest of script
         dataset = process_dataset(dataset, sizes)
         
         # Create LLM prompts dataset
-        create_prompt_dataset(dataset, "grpo/datasets/tsp_training_dataset2.json", sizes, problems_per_size=333)
+        create_prompt_dataset(dataset, "grpo/datasets/tsp_training_dataset3.json", sizes, problems_per_size=1000)
         
         
     except FileNotFoundError:

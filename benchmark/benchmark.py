@@ -4,14 +4,14 @@ from tqdm import tqdm
 from typing import List, Dict, Any
 import json
 import re
-from grpo.grpo import SYSTEM_PROMPT, extract_trace, optimal_solution_reward_func, improvement_reward_func, valid_response_reward_func, strict_format_reward_func, soft_format_reward_func
+from grpo.grpo import SYSTEM_PROMPT, extract_trace, optimal_solution_reward_func, improvement_reward_func, valid_response_reward_func, strict_format_reward_func, soft_format_reward_func, scaled_reward_func
 from tsp.tsp_llm import coordinates_to_tsp
 from tsp.tsp import calculate_tsp_distance
 
 
-MODEL = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit"
-BENCHMARK_DATASET = "benchmark/datasets/tsp_bechmark_dataset.json"
-BENCHMARK_RESULTS = "benchmark/results/Qwen2.5-3B-Instruct/tsp_benchmark_results.json"
+MODEL = "grpo/out/Qwen2.5-3B-Instruct/run2/checkpoint-1000"
+BENCHMARK_DATASET = "benchmark/datasets/tsp_bechmark_dataset2.json"
+BENCHMARK_RESULTS = "benchmark/results/Qwen2.5-3B-Instruct/tsp_benchmark_results3.json"
 
 
 def load_benchmark_dataset(filename: str) -> Dict:
@@ -169,6 +169,7 @@ def apply_reward_functions(problem: Dict, responses: List[str]) -> Dict:
     valid_response_rewards = valid_response_reward_func(completions, **kwargs)
     strict_format_rewards = strict_format_reward_func(completions, **kwargs)
     soft_format_rewards = soft_format_reward_func(completions, **kwargs)
+    scaled_rewards = scaled_reward_func(completions, **kwargs)
 
     # Calculate problem averages
     problem_summary = {
@@ -178,7 +179,8 @@ def apply_reward_functions(problem: Dict, responses: List[str]) -> Dict:
         "average improvement reward": sum(improvement_rewards) / n,
         "average valid response reward": sum(valid_response_rewards) / n,
         "average strict format reward": sum(strict_format_rewards) / n,
-        "average soft format reward": sum(soft_format_rewards) / n
+        "average soft format reward": sum(soft_format_rewards) / n,
+        "average scaled reward": sum(scaled_rewards) / n
     }
 
     # Add summary for each sample
@@ -195,6 +197,7 @@ def apply_reward_functions(problem: Dict, responses: List[str]) -> Dict:
             "valid response reward": valid_response_rewards[i],
             "strict format reward": strict_format_rewards[i],
             "soft format reward": soft_format_rewards[i],
+            "scaled reward": scaled_rewards[i]
         }
     
     return problem_summary
@@ -277,6 +280,7 @@ def summarize_results(results: Dict) -> Dict:
         average_valid_response_reward = sum([problem['average valid response reward'] for problem in size_results]) / n
         average_strict_format_reward = sum([problem['average strict format reward'] for problem in size_results]) / n
         average_soft_format_reward = sum([problem['average soft format reward'] for problem in size_results]) / n
+        average_scaled_reward = sum([problem['average scaled reward'] for problem in size_summary]) / n
 
         # Load size summary
         size_summary['average input token count'] = average_input_token_count
@@ -286,6 +290,7 @@ def summarize_results(results: Dict) -> Dict:
         size_summary['average valid response reward'] = average_valid_response_reward
         size_summary['average strict format reward'] = average_strict_format_reward
         size_summary['average soft format reward'] = average_soft_format_reward
+        size_summary['average scaled reward'] = average_scaled_reward
 
         # Append size summary to summary
         summary[size_key] = size_summary

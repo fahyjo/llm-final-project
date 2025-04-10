@@ -59,7 +59,8 @@ def load_training_dataset(filename: str) -> Dict:
         ],
         'answer': p['solution'],
         'tsp': coordinates_to_tsp(p['coordinates']),
-        'reference_distance': p['reference_distance']
+        'reference_distance': p['reference_distance'],
+        'reference_path': p['reference_path']
     } for p in problems]
     
     return training_dataset 
@@ -96,16 +97,25 @@ def scaled_reward_func(completions, **kwargs) -> list[float]:
     # Get tsp, optimal distance, target distance from extra parms
     tsp = kwargs['tsp'][0]
     optimal_distance = kwargs['answer'][0]['distance']
+    optimal_path = kwargs['answer'][0]['path']
+    reference_path = kwargs['reference_path'][0]
     # Extract trace from each response and calculate its distance
     traces = [extract_trace(response) for response in responses]
 
     # Determine if each response is a valid response
-    valid_response_rewards = valid_response_reward_helper(traces, len(tsp) + 1)
+    valid_response_rewards = valid_response_reward_helper(traces, len(tsp) + 1, optimal_path, reference_path)
 
     # Calculate distance for each valid trace
     distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 1.0 else np.inf for i in range(len(traces))]
     
-    ratios = [1-((distance-optimal_distance) / (optimal_distance)) if distance != np.inf else 0.0 for distance in distances]
+    ratios = []
+    for d in distances:
+        if d == np.inf:
+            ratios.append(0.0)
+        elif d >= optimal_distance * 1.5:
+            ratios.append(0.0)
+        else:
+            ratios.append(1.0 - 2.0 * (d - optimal_distance) / optimal_distance)
 
     return ratios
 
@@ -124,7 +134,7 @@ def optimal_solution_reward_func(completions, **kwargs) -> list[float]:
     traces = [extract_trace(response) for response in responses]
 
     # Determine if each response is a valid response
-    valid_response_rewards = valid_response_reward_helper(traces, len(tsp) + 1)
+    valid_response_rewards = valid_response_reward_helper(traces, len(tsp) + 1, 0, 0)
 
     # Calculate distance for each valid trace
     distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 1.0 else np.inf for i in range(len(traces))]
@@ -141,19 +151,22 @@ def improvement_reward_func(completions, **kwargs) -> list[float]:
 
     # Get tsp and reference distance from extra params
     tsp = kwargs['tsp'][0]
+    optimal_distance = kwargs['answer'][0]['distance']
     reference_distance = kwargs['reference_distance'][0]
+    optimal_path = kwargs['answer'][0]['path']
+    reference_path = kwargs['reference_path'][0]
 
     # Extract trace from each response
     traces = [extract_trace(response) for response in responses]
 
     # Determine if each response is a valid response
-    valid_response_rewards = valid_response_reward_helper(traces, len(tsp) + 1)
+    valid_response_rewards = valid_response_reward_helper(traces, len(tsp) + 1, optimal_path, reference_path)
 
     # Calculate distance for each valid trace
     distances = [round(calculate_tsp_distance(tsp, traces[i])) if valid_response_rewards[i] == 1.0 else np.inf for i in range(len(traces))]
 
     # 2.5 for each response that meets the reference distance
-    return [1.0 if distance <= reference_distance else 0.0 for distance in distances]
+    return [1.0 if (distance < reference_distance) or (distance == optimal_distance) else 0.0 for distance in distances]
 
 def valid_response_reward_func(completions, **kwargs) -> list[float]:
     """ Score = 0.5 if response solution contains trace with correct length, starts with node 0,
@@ -164,21 +177,26 @@ def valid_response_reward_func(completions, **kwargs) -> list[float]:
 
     # Get expected trace length from extra params
     trace_length = len(kwargs['tsp'][0]) + 1
+    optimal_path = kwargs['answer'][0]['path']
+    reference_path = kwargs['reference_path'][0]
 
     # Extract trace from each response
     traces = [extract_trace(response) for response in responses]
     
     # 0.5 if the trace has the correct length, starts with node 0, ends with node 0, and is a valid path
-    return valid_response_reward_helper(traces, trace_length)
+    return valid_response_reward_helper(traces, trace_length, optimal_path, reference_path)
 
-def valid_response_reward_helper(traces: List[List[int]], trace_length: int) -> List[float]:
+def valid_response_reward_helper(traces: List[List[int]], trace_length: int, solution_path: List[int], reference_path: List[int]) -> List[float]:
     """ Score = 0.5 if response solution contains trace with correct length, starts with node 0,
     ends with node 0, and is a valid path, 0.0 otherwise """
+
     return [
-        1.0 if len(trace) == trace_length
+        1.0 if trace == solution_path or
+        (len(trace) == trace_length
         and trace[0] == 0
         and trace[-1] == 0
-        and set(trace) == set(range(trace_length - 1)) else 0.0 for trace in traces]
+        and set(trace) == set(range(trace_length - 1))
+        and trace != reference_path) else 0.0 for trace in traces]
 
 def strict_format_reward_func(completions, **kwargs) -> list[float]:
     """ Score = 0.25 if response solution matches requested solution format, 0.0 otherwise """
@@ -338,6 +356,106 @@ qwen_config = GRPORunConfig(
     lr_scheduler_type="constant"
 )
 
+config4 = GRPORunConfig(
+    model = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit",
+    training_output_dir = "grpo/out/Qwen2.5-3B-Instruct/test_lower_learning_rate3",
+    wandb_project_name = "Qwen2.5-3B-Instruct",
+    wandb_run_name = "test_lower_learning_rate3",
+    max_seq_length = 3000,
+    max_lora_rank = 64,
+    per_device_train_batch_size = 8,
+    gradient_accumulation_steps = 2,
+    num_generations = 8,
+    max_prompt_length = 600,
+    max_completion_length = 2400,
+    num_train_epochs = 1,
+    reward_funcs = [
+        scaled_reward_func,
+        improvement_reward_func,
+        valid_response_reward_func,
+        strict_format_reward_func,
+        soft_format_reward_func
+    ],
+    reward_weights = [5, 2.5, 1, 1, 1],
+    learning_rate=5e-6,
+    lr_scheduler_type="constant"
+)
+
+config5 = GRPORunConfig(
+    model = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit",
+    training_output_dir = "grpo/out/Qwen2.5-3B-Instruct/test_cosine_scheduler3",
+    wandb_project_name = "Qwen2.5-3B-Instruct",
+    wandb_run_name = "test_cosine_scheduler3",
+    max_seq_length = 3000,
+    max_lora_rank = 64,
+    per_device_train_batch_size = 8,
+    gradient_accumulation_steps = 2,
+    num_generations = 8,
+    max_prompt_length = 600,
+    max_completion_length = 2400,
+    num_train_epochs = 1,
+    reward_funcs = [
+        scaled_reward_func,
+        improvement_reward_func,
+        valid_response_reward_func,
+        strict_format_reward_func,
+        soft_format_reward_func
+    ],
+    reward_weights = [5, 2.5, 1, 1, 1],
+    learning_rate=1e-5,
+    lr_scheduler_type="cosine"
+)
+
+config6 = GRPORunConfig(
+    model = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit",
+    training_output_dir = "grpo/out/Qwen2.5-3B-Instruct/test_tweaked_rewards3",
+    wandb_project_name = "Qwen2.5-3B-Instruct",
+    wandb_run_name = "test_tweaked_rewards3",
+    max_seq_length = 3000,
+    max_lora_rank = 64,
+    per_device_train_batch_size = 8,
+    gradient_accumulation_steps = 2,
+    num_generations = 8,
+    max_prompt_length = 600,
+    max_completion_length = 2400,
+    num_train_epochs = 1,
+    reward_funcs = [
+        scaled_reward_func,
+        improvement_reward_func,
+        valid_response_reward_func,
+        strict_format_reward_func,
+        soft_format_reward_func
+    ],
+    reward_weights = [5, 2.5, 1, 1, 1],
+    learning_rate=5e-6,
+    lr_scheduler_type="cosine"
+)
+
+config7 = GRPORunConfig(
+    model = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit",
+    training_output_dir = "grpo/out/Qwen2.5-3B-Instruct/test_tweaked_rewards_high_learning_constant2",
+    wandb_project_name = "Qwen2.5-3B-Instruct",
+    wandb_run_name = "test_tweaked_rewards_high_learning_constant2",
+    max_seq_length = 2600,
+    max_lora_rank = 64,
+    per_device_train_batch_size = 8,
+    gradient_accumulation_steps = 2,
+    num_generations = 8,
+    max_prompt_length = 600,
+    max_completion_length = 2000,
+    num_train_epochs = 1,
+    reward_funcs = [
+        scaled_reward_func,
+        improvement_reward_func,
+        valid_response_reward_func,
+        strict_format_reward_func,
+        soft_format_reward_func
+    ],
+    reward_weights = [5, 2.5, 1, 1, 1],
+    learning_rate=1e-5,
+    lr_scheduler_type="constant"
+)
+
 def get_config(config: str) -> GRPORunConfig:
     """
     Returns the GRPOConfig dataclass specified in cli to grpo script.
@@ -358,6 +476,14 @@ def get_config(config: str) -> GRPORunConfig:
         return config3
     elif config == "qwen":
         return qwen_config
+    elif config == "config4":
+        return config4
+    elif config == "config5":
+        return config5
+    elif config == "config6":
+        return config6
+    elif config == "config7":
+        return config7
     else:
         return None
 
