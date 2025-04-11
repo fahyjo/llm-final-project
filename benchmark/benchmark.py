@@ -7,26 +7,47 @@ import re
 from grpo.grpo import SYSTEM_PROMPT, extract_trace, optimal_solution_reward_func, improvement_reward_func, valid_response_reward_func, strict_format_reward_func, soft_format_reward_func, scaled_reward_func
 from tsp.tsp_llm import coordinates_to_tsp
 from tsp.tsp import calculate_tsp_distance
+from peft import PeftModel
+import random
 
-
-MODEL = "grpo/out/Qwen2.5-3B-Instruct/run2/checkpoint-1000"
-BENCHMARK_DATASET = "benchmark/datasets/tsp_bechmark_dataset2.json"
-BENCHMARK_RESULTS = "benchmark/results/Qwen2.5-3B-Instruct/tsp_benchmark_results3.json"
+MODEL = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit"
+BENCHMARK_DATASET = "benchmark/datasets/tsp_bench_final.json"
+BENCHMARK_RESULTS = "benchmark/results/Qwen2.5-3B-Instruct/tsp_benchmark_results_checkpoint_500.json"
 
 
 def load_benchmark_dataset(filename: str) -> Dict:
     """
-    Load the benchmark dataset.
-    
-    Args:
-        filename: Path to the benchmark dataset
-        
+    Load the training dataset.
+
+    Args: 
+        filename: File containing training dataset
+
     Returns:
-        Dict: Benchmark dataset
+        Dict: Training dataset
     """
+
+    # Open training prompt dataset
     with open(filename, 'r') as f:
-        dataset = json.load(f)
-    return dataset
+        dataset = f.read()
+        dataset = json.loads(dataset)
+    
+    benchmark_dataset = {}
+    
+    for size in dataset.keys():
+
+        benchmark_dataset[size] = [{
+        'prompt': [
+            {'role': 'system', 'content': SYSTEM_PROMPT},
+            {'role': 'user', 'content': p['prompt']}
+        ],
+        'solution': p['solution'],
+        'tsp': coordinates_to_tsp(p['coordinates']),
+        'reference_distance': p['reference_distance'],
+        'reference_path': p['reference_path'],
+        'problem_id': p['problem_id']
+    } for p in dataset[size]]
+    
+    return benchmark_dataset 
 
 def save_benchmark_results(filename: str, results: Dict) -> None:
     """
@@ -88,16 +109,9 @@ def generate(model, tokenizer, prompt: str, max_new_tokens: int = 3500, num_samp
         Dict[str, Any]: Summary dict containing input token count, average output token count, and
                         model responses
     """
-
-    # Format chat message for Qwen
-    messages = [
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": prompt}
-    ]
-
     # Tokenize input and move input tensors to GPU
     inputs = tokenizer.apply_chat_template(
-        messages,
+        prompt,
         tokenize=True,
         add_generation_prompt=True,
         return_tensors="pt"
@@ -149,18 +163,27 @@ def apply_reward_functions(problem: Dict, responses: List[str]) -> Dict:
 
     # Extract problem info
     n = len(responses)
-    tsp = coordinates_to_tsp(problem['coordinates'])
+    tsp = problem['tsp']
 
     # Extract traces and distances from model responses
     traces = [extract_trace(response) for response in responses]
-    distances = [round(calculate_tsp_distance(tsp, trace)) for trace in traces]
+    def safe_distance(trace):
+        try:
+            return round(calculate_tsp_distance(tsp, trace))
+        except Exception:
+            return None  # Use None to mark failure
+    
+    distances = [safe_distance(trace) for trace in traces]
+    max_valid = max(d for d in distances if d is not None)
+    distances = [d if d is not None else max_valid for d in distances]
     
     # Construct args for reward functions
     completions = [[{'content': response}] for response in responses]
     kwargs = {
-        'tsp': [tsp for _ in responses],
+        'tsp': [problem['tsp'] for _ in responses],
         'answer': [problem['solution'] for _ in responses],
-        'reference_distance': [problem['reference_distance'] for _ in responses]
+        'reference_distance': [problem['reference_distance'] for _ in responses],
+        'reference_path' : [problem['reference_path'] for _ in responses]
     }
 
     # Invoke reward functions
@@ -180,7 +203,7 @@ def apply_reward_functions(problem: Dict, responses: List[str]) -> Dict:
         "average valid response reward": sum(valid_response_rewards) / n,
         "average strict format reward": sum(strict_format_rewards) / n,
         "average soft format reward": sum(soft_format_rewards) / n,
-        "average scaled reward": sum(scaled_rewards) / n
+        "average scaled reward": sum(scaled_rewards) / n,
     }
 
     # Add summary for each sample
@@ -197,7 +220,7 @@ def apply_reward_functions(problem: Dict, responses: List[str]) -> Dict:
             "valid response reward": valid_response_rewards[i],
             "strict format reward": strict_format_rewards[i],
             "soft format reward": soft_format_rewards[i],
-            "scaled reward": scaled_rewards[i]
+            "scaled reward": scaled_rewards[i],
         }
     
     return problem_summary
@@ -227,6 +250,7 @@ def solve_benchmark(model, tokenizer, dataset: Dict) -> Dict:
         size_results = []
         for problem in problems:
             prompt = problem['prompt']
+            print(prompt)
 
             # Generate 3 completions per prompt
             generate_out = generate(model, tokenizer, prompt)
@@ -280,7 +304,7 @@ def summarize_results(results: Dict) -> Dict:
         average_valid_response_reward = sum([problem['average valid response reward'] for problem in size_results]) / n
         average_strict_format_reward = sum([problem['average strict format reward'] for problem in size_results]) / n
         average_soft_format_reward = sum([problem['average soft format reward'] for problem in size_results]) / n
-        average_scaled_reward = sum([problem['average scaled reward'] for problem in size_summary]) / n
+        average_scaled_reward = sum([problem['average scaled reward'] for problem in size_results]) / n
 
         # Load size summary
         size_summary['average input token count'] = average_input_token_count
@@ -295,6 +319,8 @@ def summarize_results(results: Dict) -> Dict:
         # Append size summary to summary
         summary[size_key] = size_summary
 
+        print(f"Size {size_key} summary: {size_summary}")
+
     # Append summary to results
     results['summary'] = summary
 
@@ -308,6 +334,9 @@ if __name__ == "__main__":
         load_in_4bit=True,
         dtype=torch.bfloat16
     )
+    
+    checkpoint_path = "/scratch/bchk/jgottesman/grpo/out/trained"
+    model = PeftModel.from_pretrained(model, checkpoint_path)
 
     # Prepare model for inference
     FastLanguageModel.for_inference(model)
