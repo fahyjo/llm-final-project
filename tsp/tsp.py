@@ -333,7 +333,6 @@ def create_tsp_dataset(sizes: List[int], count_per_size: int, filename: str) -> 
     # Serialize dataset
     serialize_tsp_dataset(dataset, filename)
 
-# Generate the dataset
 if __name__ == "__main__":
     # Set random seed for reproducibility
     random.seed(42)
@@ -347,10 +346,10 @@ if __name__ == "__main__":
     print(f"Total problems: {len(sizes) * count_per_size}")
     
     # Create and save the dataset
-    create_tsp_dataset(sizes, count_per_size, "tsp_problems_benchmark_dataset.json")
+    create_tsp_dataset(sizes, count_per_size, "tsp_benchmark_problem_dataset.json")
 
     # Open dataset
-    dataset = open_tsp_dataset("tsp_problems_benchmark_dataset.json")
+    dataset = open_tsp_dataset("tsp_benchmark_problem_dataset.json")
     
     # Print summary statistics
     print("\nDataset Summary:")

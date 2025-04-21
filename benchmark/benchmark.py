@@ -7,34 +7,32 @@ import re
 from grpo.grpo import SYSTEM_PROMPT, extract_trace, optimal_solution_reward_func, improvement_reward_func, valid_response_reward_func, strict_format_reward_func, soft_format_reward_func, scaled_reward_func
 from tsp.tsp_llm import coordinates_to_tsp
 from tsp.tsp import calculate_tsp_distance
-from peft import PeftModel
-import random
 
 MODEL = "unsloth/Qwen2.5-3B-Instruct-unsloth-bnb-4bit"
-BENCHMARK_DATASET = "benchmark/datasets/tsp_bench_final.json"
-BENCHMARK_RESULTS = "benchmark/results/Qwen2.5-3B-Instruct/tsp_benchmark_results_checkpoint_500.json"
+BENCHMARK_DATASET = "benchmark/datasets/tsp_benchmark_dataset3.json"
+BENCHMARK_RESULTS = "benchmark/results/Qwen2.5-3B-Instruct/pre-train/tsp_benchmark_results3.json"
 
 
 def load_benchmark_dataset(filename: str) -> Dict:
     """
-    Load the training dataset.
+    Load the benchmark dataset.
 
     Args: 
-        filename: File containing training dataset
+        filename: File containing benchmark dataset
 
     Returns:
-        Dict: Training dataset
+        Dict: Benchmark dataset
     """
 
-    # Open training prompt dataset
+    # Open benchmark dataset
     with open(filename, 'r') as f:
         dataset = f.read()
         dataset = json.loads(dataset)
     
     benchmark_dataset = {}
     
+    # Format benchmark dataset
     for size in dataset.keys():
-
         benchmark_dataset[size] = [{
         'prompt': [
             {'role': 'system', 'content': SYSTEM_PROMPT},
@@ -250,7 +248,6 @@ def solve_benchmark(model, tokenizer, dataset: Dict) -> Dict:
         size_results = []
         for problem in problems:
             prompt = problem['prompt']
-            print(prompt)
 
             # Generate 3 completions per prompt
             generate_out = generate(model, tokenizer, prompt)
@@ -319,8 +316,6 @@ def summarize_results(results: Dict) -> Dict:
         # Append size summary to summary
         summary[size_key] = size_summary
 
-        print(f"Size {size_key} summary: {size_summary}")
-
     # Append summary to results
     results['summary'] = summary
 
@@ -334,9 +329,6 @@ if __name__ == "__main__":
         load_in_4bit=True,
         dtype=torch.bfloat16
     )
-    
-    checkpoint_path = "/scratch/bchk/jgottesman/grpo/out/trained"
-    model = PeftModel.from_pretrained(model, checkpoint_path)
 
     # Prepare model for inference
     FastLanguageModel.for_inference(model)

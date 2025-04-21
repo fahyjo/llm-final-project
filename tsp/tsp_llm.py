@@ -5,6 +5,9 @@ import numpy as np
 from tqdm import tqdm
 from .tsp import calculate_tsp_distance, generate_tsp_distance_matrix
 
+BENCHMARK_PROBLEM_DATASET = "benchmark/datasets/tsp_benchmark_problem_dataset.json"
+TRAINING_PROBLEM_DATASET = "grpo/datasets/tsp_training_problem_dataset.json"
+
 def load_tsp_problem_dataset(filename: str) -> Dict:
     """
     Load the TSP dataset from a JSON file.
@@ -127,7 +130,7 @@ def format_solution(path: List[int]) -> str:
     """
     return ",".join(map(str, path))
 
-def generate_llm_prompt(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -> Tuple[str, int]:
+def generate_llm_prompt(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -> Tuple[str, int, List[int]]:
     """
     Generate a prompt for an LLM to solve a TSP problem.
     
@@ -138,6 +141,7 @@ def generate_llm_prompt(tsp: Dict[int, Tuple[int, int]], num_samples: int = 3) -
     Returns:
         str: Formatted prompt string for the LLM.
         int: Distance of best reference path provided in prompt
+        List[int]: Best reference path
     """
     # Create distance matrix
     distance_matrix = generate_tsp_distance_matrix(tsp)
@@ -264,7 +268,7 @@ def process_dataset(dataset: Dict, sizes: List[int]) -> Dict:
         sizes: Problem sizes we want to generate prompts for
     
     Returns:
-        Processed dataset
+        Dict: Processed dataset
     """
     # Remove metadata entry
     del dataset['metadata']
@@ -303,7 +307,6 @@ def coordinates_to_tsp(coordinates: Dict[str, List[int]]) -> Dict[int, Tuple[int
         tsp[int(node)] = (x, y)
     return tsp
 
-# Example usage
 if __name__ == "__main__":
     # Set random seed for reproducibility
     random.seed(42)
@@ -311,18 +314,17 @@ if __name__ == "__main__":
     
     try:
         # Load the TSP problem dataset
-        dataset = load_tsp_problem_dataset("grpo/datasets/tsp_training_problem_dataset.json")
+        dataset = load_tsp_problem_dataset(BENCHMARK_PROBLEM_DATASET)
         print("TSP problem dataset loaded successfully.")
 
         # Specify problem sizes to generate prompts for
-        sizes = list(range(5, 6))
+        sizes = list(range(5, 11))
 
         # Process dataset for compatibility with rest of script
         dataset = process_dataset(dataset, sizes)
         
         # Create LLM prompts dataset
-        create_prompt_dataset(dataset, "grpo/datasets/tsp_training_dataset3.json", sizes, problems_per_size=1000)
-        
+        create_prompt_dataset(dataset, "benchmark/datasets/tsp_benchmark_dataset4.json", sizes, problems_per_size=10)
         
     except FileNotFoundError:
         print("TSP dataset file not found. Please run the dataset generation script first.")
